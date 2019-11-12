@@ -1,6 +1,6 @@
-title : <%= @post.title %>
+이름 : <%= @post.name %>
 <hr>
-content : <%= @post.content %>
+간단소개 : <%= @post.content %>
 <hr>
 
 <form action="/posts/<%= @post.id %>/comments" method="POST">
@@ -26,5 +26,5 @@ content : <%= @post.content %>
 <hr>
 
 
-<a href="/posts/index">리스트로 이동</a>
+<a href="/posts", method: "GET">리스트로 이동</a>
 

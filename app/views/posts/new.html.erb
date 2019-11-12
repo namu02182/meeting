@@ -1,8 +1,25 @@
-<form action="/posts/create" method="POST">
+<h1>내 프로필 등록</h1>
+
+
+
+
+<form action="/posts/create/<%=current_user.id%>" method="POST">
     <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-    글 : <input type="text" name="title">
+    <%= render 'profile_form', post: @post %>
+        이름 : <input type="text" name="name">
     <br>
-    내용 : <textarea name="content"></textarea>
+    간단소개 : <textarea name="content"></textarea>
     <br>
+    <div class="field">
+<span>거주지:</span> <input type="text" name="home"><br/><br/>
+<span>직업:</span> <input type="text" name="job"><br/><br/>
+<span>직장명:</span> <input type="text" name="workplace"><br/><br/>
+<span>키(cm):</span> <input type="text" name="height"><br/><br/>
+</div>
+    
+
     <button type="submit">제출</button>
 </form>
+
+<button><%= link_to '뒤로가기', @back_url %></button>
+    

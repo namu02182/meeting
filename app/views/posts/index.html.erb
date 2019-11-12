@@ -1,17 +1,89 @@
-<% if user_signed_in? %>
-    <%= current_user.email %>님 안녕하세요!!
-    <%= link_to "로그아웃", destroy_user_session_path, method: :delete %>
-<% else %>
-    <%= link_to "로그인", new_user_session_path %>
-<% end %>
-<hr>
-<a href="/posts/new">새 글 쓰기</a>
-<hr>
-<% @posts.each do |post| %>
-    title : <%= post.title %>
-    content : <%= post.content %>
-    <a href="/posts/<%= post.id %>/show">보기</a>
-    <a href="/posts/<%= post.id %>/edit">수정</a>
-    <a href="/posts/<%= post.id %>/destroy">삭제</a>
-    <hr>
-<% end %>
+<!--자기자신의 라운지-->
+      <p><%= current_user.email %>님의 라운지
+      <%= link_to "로그아웃", destroy_user_session_path, method: :delete, data: { confirm: "Are you sure?" } %></p>
+
+<!--내 프로필 보여주는 부분 시작-->
+      <% if @profile_check.nil? %>
+        아직 프로필이 등록되지 않았어요! => <%= link_to "프로필 등록하러 가기", new_post_path %>
+      <% else %>
+        <%= link_to '프로필 수정하기', edit_post_path(current_user.id) %><br>
+        <hr>
+        <h2 id="followers">내가 친구 신청한 사람들 (<%= @my_requests.size %>명) </h2>
+        <% if @my_requests.exists? %>
+          <% @my_requests.each do |p| %>  
+            <%= link_to "#{p.name}", p %>님에게 친구신청 했어요!
+            <%= link_to "친구신청 취소", friends_path(p.owner_id) %><br>
+          <% end %>
+        <% else %>
+          자 이제, 친구신청 해보세요!
+        <% end %>
+        <hr>
+        <h2 id="followers">나에게 친구 신청한 사람들 (<%= @friend_requests.size %>명)</h2>
+        <% if @friend_requests.exists? %>
+          <% @friend_requests.each do |p| %>  
+              <%= link_to "#{p.name}", p %>님이 친구신청 했어요! 
+              <%= link_to "친구수락", friends_path(p.owner_id) %><br>
+          <% end %>
+        <% else %>
+          들어온 친구신청이 없어요!
+        <% end %>
+      <hr>
+        <h2 id="existing_friends">친구목록 (<%= @my_friends.size %>명)</h2>
+        <% if @my_friends.exists?%>
+          <% @my_friends.each do |p| %>  
+            <%= link_to "#{p.name}", p %>님
+            <a href="/posts/loundge/<%=p.owner_id%>", method: "GET">친구 라운지로 이동</a>
+            <%= link_to "친구끊기", friends_path(p.owner_id) %> <br>
+          <% end %>
+        <% else %>
+          아직 친구가 없네요! 친구신청을 해볼까요?
+        <% end %>
+        
+        
+        <hr>
+        <h2 id="recommended_friends">추천 친구</h2>
+    <!--일단 지금은 전체 등록된 사용자(랜덤 10명)를 보여주는 칸:친구신청 테스트-->
+        <% @posts_not_mine.where.not(id: @my_friends.pluck(:id)).sample(10).each do |p| %>  
+          <p><%= link_to "#{p.name}", p %>
+            <% if Friend.find_by(user_id: current_user.id, post_id: p.owner_id).nil? %>
+            <!--내가 이 포스트의 주인에게 친구신청을 한 적이 없는데,-->
+                <% if Friend.find_by(user_id: p.owner_id, post_id: current_user.id).nil? %>
+                <!-- 이 포스트의 주인도, 나에게 친구신청을 한 적이 없다면?-->
+                  <%= link_to "친구신청", friends_path(p.owner_id) %>
+                <% else %>
+                <!--이 포스트의 주인은 나한테 친구신청을 한 상태-->
+                  <%= link_to "친구수락", friends_path(p.owner_id) %>
+                <%end%>
+            <% else %>
+            <!--내가 이 포스트의 주인에게 친구신청을 이미 했는데,-->
+                <% if Friend.find_by(user_id: p.owner_id, post_id: current_user.id).nil? %>
+                <!-- 이 포스트의 주인은, 나에게 친구신청을 한 적이 없다면?-->
+                  <%= link_to "친구신청 취소", friends_path(p.owner_id) %>
+                <% else %>
+                <!--이 포스트의 주인도 이미 나한테 친구신청을 한 상태-->
+                  <%= link_to "친구끊기", friends_path(p.owner_id) %> 
+                <% end %>
+            <% end %>
+      <% end %>
+<!--내 프로필 보여주는 부분 끝-->
+      <hr>
+      <table>
+          <thead>
+            <tr>
+              <th>전체 등록된 프로필</th>
+              <th colspan="3"></th>
+            </tr>
+          </thead>
+        
+          <tbody>
+            <% @posts.each do |post| %>
+              <tr>
+                <td><%= post.name %></td>
+                <td><%= link_to 'Show', post_path(post.owner_id) %></td>
+                <td><%= link_to 'Edit', edit_post_path(post.owner_id) %></td>
+                <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% end %>
