@@ -72,4 +72,7 @@ group :development do
   gem 'rails_db', '2.0.4'
 end
 
+gem "omniauth-oauth2"
+
+gem "omniauth-google-oauth2"
 
