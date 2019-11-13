@@ -28,7 +28,7 @@ class PostsController < ApplicationController
     # @loundge_owner = User.find(@post.owner_id).post_ids.pluck(:owner_id)
     @friendship = Friend.where(user_id: Post.where(owner_id: User.find(@post.owner_id).post_ids).pluck(:owner_id), post_id: @post.owner_id)
     @his_or_her_friends = Post.where(owner_id: @friendship.pluck(:user_id))
-    # @recommended_solos_not_my_sex = 
+    @recommended_solos_not_my_sex = @his_or_her_friends.where.not(sex: Post.find_by(owner_id: current_user).sex)
   end
 
   def new
