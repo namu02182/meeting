@@ -12,30 +12,13 @@
 
 ActiveRecord::Schema.define(version: 2019_11_19_123514) do
 
-  create_table "comments", force: :cascade do |t|
-    t.string "body"
-    t.integer "post_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["post_id"], name: "index_comments_on_post_id"
-  end
-
   create_table "friends", force: :cascade do |t|
     t.integer "user_id"
-    t.integer "post_id"
+    t.integer "owner_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["post_id"], name: "index_friends_on_post_id"
+    t.index ["owner_id"], name: "index_friends_on_owner_id"
     t.index ["user_id"], name: "index_friends_on_user_id"
-  end
-
-  create_table "likes", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "post_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["post_id"], name: "index_likes_on_post_id"
-    t.index ["user_id"], name: "index_likes_on_user_id"
   end
 
   create_table "make_friends", force: :cascade do |t|

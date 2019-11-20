@@ -46,9 +46,9 @@
     <!--일단 지금은 전체 등록된 사용자(랜덤 10명)를 보여주는 칸:친구신청 테스트-->
         <% @posts_not_mine.where.not(id: @my_friends.pluck(:id)).sample(10).each do |p| %>  
           <p><%= link_to "#{p.name}", p %>
-            <% if Friend.find_by(user_id: current_user.id, post_id: p.owner_id).nil? %>
+            <% if Friend.find_by(user_id: current_user.id, owner_id: p.owner_id).nil? %>
             <!--내가 이 포스트의 주인에게 친구신청을 한 적이 없는데,-->
-                <% if Friend.find_by(user_id: p.owner_id, post_id: current_user.id).nil? %>
+                <% if Friend.find_by(user_id: p.owner_id, owner_id: current_user.id).nil? %>
                 <!-- 이 포스트의 주인도, 나에게 친구신청을 한 적이 없다면?-->
                   <%= link_to "친구신청", friends_path(p.owner_id) %>
                 <% else %>
@@ -57,7 +57,7 @@
                 <%end%>
             <% else %>
             <!--내가 이 포스트의 주인에게 친구신청을 이미 했는데,-->
-                <% if Friend.find_by(user_id: p.owner_id, post_id: current_user.id).nil? %>
+                <% if Friend.find_by(user_id: p.owner_id, owner_id: current_user.id).nil? %>
                 <!-- 이 포스트의 주인은, 나에게 친구신청을 한 적이 없다면?-->
                   <%= link_to "친구신청 취소", friends_path(p.owner_id) %>
                 <% else %>
