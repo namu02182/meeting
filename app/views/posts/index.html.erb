@@ -6,8 +6,8 @@
       <!--자기자신의 라운지-->
       <p><%= Post.find_by(owner_id: current_user.id).name %>님의 초기화면
       <%= link_to "로그아웃", destroy_user_session_path, method: :delete, data: { confirm: "Are you sure?" } %></p>
-      <a href="/posts/my_loundge/<%= current_user.id %>", method: "GET">내 라운지로 이동</a>
-        <%= link_to '프로필 보기', post_path(current_user.id) %><br>
+      <a href="/posts/my_loundge/<%=current_user.id%>">내 라운지로 이동</a>
+      <%= link_to '프로필 보기', post_path(current_user.id) %><br>
         <hr>
         <h2 id="followers">내가 친구 신청한 사람들 (<%= @my_requests.size %>명) </h2>
         <% if @my_requests.exists? %>

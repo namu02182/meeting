@@ -35,12 +35,8 @@ class PostsController < ApplicationController
   end
   
   def my_loundge
-    # @back_url = session[:my_previous_url]
-    # @posts_not_mine = Post.where.not(owner_id: current_user.id)
-    # # @loundge_owner = User.find(@post.owner_id).post_ids.pluck(:owner_id)
-    # @friendship = Friend.where(user_id: Post.where(owner_id: User.find(@post.owner_id).post_ids).pluck(:owner_id), post_id: @post.owner_id)
-    # @his_or_her_friends = Post.where(owner_id: @friendship.pluck(:user_id))
-    # @recommended_solos_not_my_sex = @his_or_her_friends.where.not(sex: Post.find_by(owner_id: current_user).sex)
+    @my_friends = Post.where(owner_id: Friend.where(user_id: current_user.owner_ids, owner_id: current_user.id).pluck(:user_id))
+    @current_user_made_up_friend = current_user.make_friends.all
   end
 
   def new
@@ -94,7 +90,7 @@ class PostsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     # 여기서 허용된 params들만 갖고올 수 있도록. 
     def post_params
-      params.permit(:name, :id, :sex, :age, :status, :home, :job, :workplace, :height, :selfintroduction, :religion, :smoking, :drink, :mind, :phone)
+      params.permit(:name, :id, :sex, :age, :status, :home, :job, :workplace, :height, :selfintroduction, :comment, :owner_id, :religion, :smoking, :drink, :mind, :phone)
     end
     
     def save_my_previous_url

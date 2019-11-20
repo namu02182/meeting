@@ -17,13 +17,22 @@ Rails.application.routes.draw do
   resources :posts, :except => [:create]
   # get "posts/:owner_id/" => "posts#show"
   post 'posts/:id/create' => 'posts#create' , as: :create_posts
+  get "posts/:owner_id/update" => "posts#update"
+  get	'/posts/:owner_id/make_friends/new' => 'make_friends#new'
+  post	'/posts/:owner_id/make_friends' => 'make_friends#create'
+  get '/posts/:owner_id/make_friends/:id' => 'make_friends#show'
+  patch '/posts/:owner_id/make_friends/:id' => 'make_friends#update'
+  put '/posts/:owner_id/make_friends/:id' => 'make_friends#update'
+  delete '/posts/:owner_id/make_friends/:id' => 'make_friends#destroy'
+  # post 'make_friends/:id/create' => 'make_friends#create' , as: :create_make_friends
+  get "make_friends/:owner_id/update" => "make_friends#update"
   # get "posts/index" => "posts#index"
   get 'posts/friend_loundge/:id' => "posts#friend_loundge", as: :friend_loundge
   get 'posts/my_loundge/:id' => "posts#my_loundge", as: :my_loundge
   # get "posts/new" => "posts#new"
 
   # get "posts/:id/edit" => "posts#edit", as: :edit_post
-  get "posts/:owner_id/update" => "posts#update"
+
   # get "posts/:id/destroy" => "posts#destroy"
   # get "posts/:post_id/likes" => "likes#create"
   

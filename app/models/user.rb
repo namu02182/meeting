@@ -9,5 +9,6 @@ class User < ApplicationRecord
   # has_many :posts, through: :likes
   has_many :friends, :dependent => :destroy
   has_many :owners, through: :friends, class_name: 'Post', :foreign_key => 'owner_id', :dependent => :destroy
+  has_many :make_friends, :dependent => :destroy
 end
 
