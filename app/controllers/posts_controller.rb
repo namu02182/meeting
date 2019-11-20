@@ -1,7 +1,8 @@
 class PostsController < ApplicationController
-  before_action :authenticate_user!, only: [:show]
+  before_action :authenticate_user!
   before_action :set_post, only: [:show, :edit, :update, :destroy, :loundge]
   after_action :save_my_previous_url, only: [:new, :show, :loundge]
+
 
 
   def index
@@ -15,7 +16,6 @@ class PostsController < ApplicationController
     @my_friends = Post.where(owner_id: Friend.where(user_id: Post.where(owner_id: current_user.post_ids).pluck(:owner_id), post_id: current_user.id).pluck(:user_id))
     @my_requests = Post.where(owner_id: current_user.post_ids).where.not(id: @my_friends.pluck(:id))
     @friend_requests = Post.where(owner_id: Friend.where(post_id: current_user.id).pluck(:user_id)).where.not(id: @my_friends.pluck(:id))
-  
   end
 
   def show
@@ -32,17 +32,19 @@ class PostsController < ApplicationController
   end
 
   def new
+    @save_path = "/posts/create"
   end
 
   def create
     @post = Post.create(post_params)
     @post.owner_id = params[:id]
-    @post.save
+    
     redirect_to "/posts/#{@post.owner_id}/show"
   end
 
   def edit
     # @post = Post.find(params[:id])
+    @edit_path = "/posts/update"
   end
 
   def update
@@ -68,7 +70,7 @@ class PostsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     # 여기서 허용된 params들만 갖고올 수 있도록. 
     def post_params
-      params.permit(:name, :dateofbirth, :content, :sex, :home, :job, :workplace, :height)
+      params.permit(:name, :id, :sex, :age, :status, :home, :job, :workplace, :height, :selfintroduction, :religion, :smoking, :drink, :mind, :phone)
     end
     
     def save_my_previous_url

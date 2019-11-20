@@ -1,7 +1,7 @@
 <!--자기자신의 라운지-->
-      <p><%= current_user.email %>님의 라운지
+      <p><%= Post.find_by(owner_id: current_user.id).name %>님의 초기화면
       <%= link_to "로그아웃", destroy_user_session_path, method: :delete, data: { confirm: "Are you sure?" } %></p>
-
+      <a href="/posts/loundge/<%= current_user.id %>", method: "GET">내 라운지로 이동</a>
 <!--내 프로필 보여주는 부분 시작-->
       <% if @profile_check.nil? %>
         아직 프로필이 등록되지 않았어요! => <%= link_to "프로필 등록하러 가기", new_post_path %>

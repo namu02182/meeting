@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_12_150352) do
+ActiveRecord::Schema.define(version: 2019_11_19_123514) do
 
   create_table "comments", force: :cascade do |t|
     t.string "body"
@@ -36,6 +36,11 @@ ActiveRecord::Schema.define(version: 2019_11_12_150352) do
     t.datetime "updated_at", null: false
     t.index ["post_id"], name: "index_likes_on_post_id"
     t.index ["user_id"], name: "index_likes_on_user_id"
+  end
+
+  create_table "make_friends", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "posts", force: :cascade do |t|

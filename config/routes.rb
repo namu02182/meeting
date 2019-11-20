@@ -1,15 +1,16 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: {omniauth_callbacks: "users/omniauth_callbacks"}
-  # root 'posts#index'
-  #루트 설정을 조건을 걸면 애니로그인 에러가 뜸.
-  devise_scope :user do
-    authenticated :user do
-      root 'posts#index', as: :authenticated_root
-    end
-    unauthenticated do
-      root 'devise/sessions#new', as: :unauthenticated_root
-    end
-  end
+  root 'posts#index'
+  # 루트 설정을 조건을 걸면 애니로그인 에러가 뜸. 
+  #근데 조건 안 걸면, 로그아웃했을 때, id: nil 에러 뜸;;;
+  # devise_scope :user do
+  #   authenticated :user do
+  #     root 'posts#index', as: :authenticated_root
+  #   end
+  #   unauthenticated do
+  #     root 'devise/sessions#new', as: :unauthenticated_root
+  #   end
+  # end
   
   get 'friends/become_friends/:id' => 'friends#become_friends', as: :friends
   get 'likes/start_love/:host_id/:id' => 'likes#start_love', as: :likes
