@@ -1,6 +1,7 @@
 <h1>프로필 수정</h1>
 
-<%= render 'profile_form', path: @edit_path %>
+<%= render 'profile_form', path: @update_path, this_post: @current_user_post, hidden: true, method: "PATCH", submit: "수정하기"  %>
 
+</br>
 <button><%= link_to '뒤로가기', '/' %></button>
     

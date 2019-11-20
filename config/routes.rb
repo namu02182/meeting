@@ -12,21 +12,23 @@ Rails.application.routes.draw do
   #   end
   # end
   
-  get 'friends/become_friends/:id' => 'friends#become_friends', as: :friends
+  get 'friends/become_friends/:owner_id' => 'friends#become_friends', as: :friends
   get 'likes/start_love/:host_id/:id' => 'likes#start_love', as: :likes
-  resources :posts, :except => :create
-  post 'posts/create/:id' => 'posts#create' , as: :create_posts
+  resources :posts, :except => [:create]
+  # get "posts/:owner_id/" => "posts#show"
+  post 'posts/:id/create' => 'posts#create' , as: :create_posts
   # get "posts/index" => "posts#index"
-  get 'posts/loundge/:id' => "posts#loundge", as: :loundge
-  get "posts/new" => "posts#new"
-  get "posts/:id/show" => "posts#show"
-  get "posts/:id/edit" => "posts#edit"
-  post "posts/:id/update" => "posts#update"
-  get "posts/:id/destroy" => "posts#destroy"
-  get "posts/:post_id/likes" => "likes#create"
+  get 'posts/friend_loundge/:id' => "posts#friend_loundge", as: :friend_loundge
+  get 'posts/my_loundge/:id' => "posts#my_loundge", as: :my_loundge
+  # get "posts/new" => "posts#new"
+
+  # get "posts/:id/edit" => "posts#edit", as: :edit_post
+  get "posts/:owner_id/update" => "posts#update"
+  # get "posts/:id/destroy" => "posts#destroy"
+  # get "posts/:post_id/likes" => "likes#create"
   
-  post "posts/:post_id/comments" => "comments#create"
-  delete "comments/:id" => "comments#destroy"
+  # post "posts/:post_id/comments" => "comments#create"
+  # delete "comments/:id" => "comments#destroy"
   
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

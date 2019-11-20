@@ -1,6 +1,6 @@
 <h1>프로필 등록</h1>
 
-<%= render 'profile_form', path: @save_path %>
+<%= render 'profile_form', path: @create_path, this_post: @empty_post, hidden: false, method: "POST", submit: "등록하기" %>
 
 <button><%= link_to '뒤로가기', '/' %></button>
     

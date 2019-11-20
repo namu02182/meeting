@@ -1,30 +1,44 @@
-이름 : <%= @post.name %>
-<hr>
-간단소개 : <%= @post.content %>
-<hr>
+<i id="notice"><%= notice %></i>
 
-<form action="/posts/<%= @post.id %>/comments" method="POST">
-    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-    댓글 : <input type="text" name="body">
-    <br>
-    <input type="submit">
-</form>
-<hr>
-<h4>댓글들</h4>
-<% @post.comments.each do |comment| %>
-    <%= comment.body %>
-    <a href="/comments/<%= comment.id %>" data-method="delete">삭제</a>
-    <hr>
+<%= @post.name %>님의 프로필<br/>
+
+프로필 사진<br/><br/>
+
+<strong>이름:</strong>
+  <%= @post.name %><br/><br/>
+
+<strong>성별:</strong>
+  <%= @post.sex %><br/><br/>
+
+<strong>나이</strong>
+  <%= @post.age %><br/><br/>
+
+<strong>연애상태</strong>
+  <%= @post.status %><br/><br/>
+
+<strong>거주지</strong>
+  <%= @post.home %><br/><br/>
+
+<strong>직업:</strong>
+  <%= @post.job %><br/><br/>
+
+<strong>직장명:</strong>
+  <%= @post.workplace %><br/><br/>
+
+<strong>키(cm):</strong>
+  <%= @post.height %><br/><br/>
+  
+  <strong>음주정도:</strong>
+  <%= @post.drink %><br/><br/>
+  
+  <strong>연애스타일:</strong>
+  <%= @post.mind %><br/><br/>
+
+<% if @post.owner_id == current_user.id %>
+    <button><%= link_to '수정', edit_post_path(@post) %></button>
+<% else %>
+    <button> <a href="/posts/loundge/<%=@post.owner_id%>", method: "GET">친구 라운지로 이동 </button>  
 <% end %>
+<button><%= link_to '뒤로가기', @back_url %></button>
 
-<h4>좋아요</h4>
-좋아요 갯수 : <%= @post.users.count %>
-<br>
-
-<a href="/posts/<%= @post.id %>/likes">좋아요</a>
-
-<hr>
-
-
-<a href="/posts", method: "GET">리스트로 이동</a>
 

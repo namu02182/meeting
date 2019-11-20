@@ -39,20 +39,41 @@ ActiveRecord::Schema.define(version: 2019_11_19_123514) do
   end
 
   create_table "make_friends", force: :cascade do |t|
+    t.string "name"
+    t.string "sex"
+    t.string "age"
+    t.string "home"
+    t.string "job"
+    t.string "workplace"
+    t.integer "height"
+    t.text "selfintroduction"
+    t.text "comment"
+    t.string "religion"
+    t.string "smoking"
+    t.integer "drink"
+    t.integer "mind"
+    t.string "phone"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "posts", force: :cascade do |t|
-    t.string "name"
-    t.datetime "dateofbirth"
-    t.text "content"
     t.string "owner_id"
+    t.string "name"
     t.string "sex"
+    t.string "age"
+    t.string "status"
     t.string "home"
     t.string "job"
     t.string "workplace"
     t.integer "height"
+    t.text "selfintroduction"
+    t.text "comment"
+    t.string "religion"
+    t.string "smoking"
+    t.integer "drink"
+    t.integer "mind"
+    t.string "phone"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
