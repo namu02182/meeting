@@ -8,4 +8,5 @@ class Post < ApplicationRecord
     has_many :make_friends, :dependent => :destroy
     # dependent 필수
     has_many :comments, :dependent => :destroy
+    has_many :hearts
 end
