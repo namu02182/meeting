@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   #     root 'devise/sessions#new', as: :unauthenticated_root
   #   end
   # end
-  
+  get 'hearts/toggle_heart/:id' => 'hearts#toggle_heart', as: :hearts
   get 'friends/become_friends/:owner_id' => 'friends#become_friends', as: :friends
   get 'likes/start_love/:host_id/:id' => 'likes#start_love', as: :likes
   resources :posts, :except => [:create]

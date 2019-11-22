@@ -18,8 +18,15 @@ class PostsController < ApplicationController
     @my_friends = Post.where(owner_id: Friend.where(user_id: current_user.owner_ids, owner_id: current_user.id).pluck(:user_id))
     @my_requests = Post.where(owner_id: current_user.owner_ids).where.not(id: @my_friends.pluck(:id))
     @friend_requests = Post.where(owner_id: Friend.where(owner_id: current_user.id).pluck(:user_id)).where.not(id: @my_friends.pluck(:id))
+    # @who_loves_my_friend = Heart.where()
   end
-
+  
+  
+  def who_loves_my_friend(person)
+     Post.find_by(owner_id: Heart.where(post_id: person.owner_id).pluck(:user_id))
+  end
+  helper_method :who_loves_my_friend
+  
   def show
     @back_url = session[:my_previous_url]
   end

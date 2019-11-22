@@ -1,0 +1,9 @@
+여기서 이제 lovers 가 보일거임!
+
+  <% if @lovers.exists? %>
+          <% @lovers.each do |p| %>
+              <a href="/posts/<%=p.owner_id%>", method: "GET"><%=p.name%></a>님이 친구신청 했어요! 
+          <% end %>
+    <% else %>
+    
+    <% end %>

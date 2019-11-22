@@ -8,6 +8,7 @@
 <!--나랑 친구는 아닌 사람들 중에서 솔로 이성들만 보이도록 기능 구현할라하다가, 그냥 나랑 친구인 사람들도 보여도 될듯!-->
 <% @recommended_solos_not_my_sex.each do |p| %>
     <%=p.name%>님 <a href="/posts/<%=p.owner_id%>", method: "GET">프로필보기</a><br>
+    <%= link_to "이 사람을 좋아요! (이사람에게 호감을 보인 사람들 :#{p.hearts.size}명)", hearts_path(p.owner_id) %>
     <!--<a href="/posts/loundge", method: "GET"> 호감 보이기</a><br>-->
 <% end %>
 <hr>
