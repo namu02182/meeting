@@ -1,0 +1,40 @@
+<i id="notice"><%= notice %></i>
+
+<%= @made_friend.name %>님의 프로필<br/>
+
+프로필 사진<br/><br/>
+
+<strong>이름:</strong>
+  <%= @made_friend.name %><br/><br/>
+
+<strong>성별:</strong>
+  <%= @made_friend.sex %><br/><br/>
+
+<strong>나이</strong>
+  <%= @made_friend.age %><br/><br/>
+
+<strong>연애상태</strong>
+  <%= @made_friend.status %><br/><br/>
+
+<strong>거주지</strong>
+  <%= @made_friend.home %><br/><br/>
+
+<strong>직업:</strong>
+  <%= @made_friend.job %><br/><br/>
+
+<strong>직장명:</strong>
+  <%= @made_friend.workplace %><br/><br/>
+
+<strong>키(cm):</strong>
+  <%= @made_friend.height %><br/><br/>
+  
+  <strong>음주정도:</strong>
+  <%= @made_friend.drink %><br/><br/>
+  
+  <strong>연애스타일:</strong>
+  <%= @made_friend.mind %><br/><br/>
+
+    <button><%= link_to '수정', edit_post_path(@made_friend) %></button>
+<button><a href="/posts/my_loundge/<%=current_user.id%>">내 라운지로 이동하기'</a></button>
+
+

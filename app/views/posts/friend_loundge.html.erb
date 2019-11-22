@@ -1,0 +1,18 @@
+<h1>친구라운지</h1>
+이름 : <%= @post.name %>
+간단소개 : <%= @post.selfintroduction %>
+<hr>
+
+<h2><%= @post.name %>님의 솔로 친구를 소개합니다!</h2>
+<i>참고: 현재 나의 성별은 <%= Post.find_by(owner_id: current_user).sex %> 입니다</i><br/>
+<!--나랑 친구는 아닌 사람들 중에서 솔로 이성들만 보이도록 기능 구현할라하다가, 그냥 나랑 친구인 사람들도 보여도 될듯!-->
+<% @recommended_solos_not_my_sex.each do |p| %>
+    <%=p.name%>님 <a href="/posts/<%=p.owner_id%>", method: "GET">프로필보기</a><br>
+    <!--<a href="/posts/loundge", method: "GET"> 호감 보이기</a><br>-->
+<% end %>
+<hr>
+
+
+
+<a href="/posts", method: "GET">초기화면으로 돌아가기</a>
+

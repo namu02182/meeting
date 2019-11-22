@@ -1,0 +1,84 @@
+<form action="/posts/<%=current_user.id%>/make_friends/" method="<%=method%>" >
+    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+    <div class="profile_input_mandatory">
+    이름 : <input type="text" name="name" required="true" value="<%= this_post.name %>" ><br/><br/>
+    </div>
+    
+    <div class="profile_input_mandatory" style="display: <%=visible%>;">
+        성별 :  <input type="radio" name="sex" value="남자"> 남자
+                <input type="radio" name="sex" value="여자"> 여자<br><br>
+    </div>
+    <div class="profile_input_mandatory">
+    나이 :  <input type = "number" min = "20" max = "100" step = "1" name = "age" value="<%= this_post.age %>"><br/><br/>
+    </div>
+    
+<!--    <script src= -->
+<!--"https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"> -->
+<!--    </script> -->
+      
+<!--    <script type="text/javascript"> -->
+<!--        $(document).ready(()=>{ -->
+<!--            $("#select option[value=]").attr('selected', 'selected'); -->
+<!--        });   -->
+<!--    </script> -->
+<!--    <div class="profile_input_mandatory">    -->
+<!--    연애상태 : <select name="status" value="">-->
+<!--                   <option disabled selected>현재 연애상태</option>-->
+<!--                   <option value="솔로">솔로</option>-->
+<!--                   <option value="연애중">연애중</option>-->
+<!--                   <option value="유부">유부</option>-->
+<!--               </select><br/><br/>-->
+<!--    </div>-->
+    <div class="profile_input_mandatory">    
+    프로필 사진<br/><br/>
+    </div>
+    <div class="profile_input_mandatory">    
+    거주지: <select name="home" value="<%= this_post.home %>">
+            <option disabled selected>지역선택</option>
+            <option value="서울">서울</option>
+            <option value="경기남부">경기남부</option>
+            <option value="경기북부">경기북부</option>
+            <option value="인부천">인천/부천</option>
+            <option value="강원도">강원도</option>
+            <option value="경상남도">경상남도</option>
+            <option value="경상북도">경상북도</option>
+            <option value="전라남도">전라남도</option>
+            <option value="전라북도">전라북도</option>
+            <option value="충청남도">충청남도</option>
+            <option value="충청북도">충청북도</option>
+            <option value="제주도">제주도</option>
+            <option value="기타">기타</option>
+            </select><br/><br/>
+    </div>
+    <div class="profile_input_choice">    
+    직업: <input type="text" name="job" value="<%= this_post.job %>"><br/><br/>
+    
+    직장명: <input type="text" name="workplace" value="<%= this_post.workplace %>"><br/><br/>
+    
+    키(cm): <input type="text" name="height" value="<%= this_post.height %>"><br/><br/>
+    
+    간단소개 : <br/><textarea name = "comment" cols = "50" rows = "5"  placeholder="간단한 자기소개 입력" value="<%= this_post.selfintroduction %>"></textarea><br/><br/>
+    
+    연락처 : <input type="text" name="phone" style="display: <%=visible%>;" value="<%=this_post.phone%>"><br/><br/><br/>
+    
+    흡연여부 : <input type="radio" name="smoking" value="흡연" <?php echo ($smoking=='흡연')?'checked':'' ?> 흡연
+               <input type="radio" name="smoking" value="비흡연"<?php echo ($smoking=='비흡연')?'checked':'' ?>비흡연<br><br>
+    
+    음주정도 : 안먹음 <input type = "range" min = "0" max = "100" step = "10" name = "drink" value="<%=this_post.drink%>"> 술은"럽" <br/><br/>
+    
+    종교 :  <select name="religion" value="<%=this_post.religion%>">
+            <option disabled selected>종교선택</option>
+            <option value="기독교">기독교</option>
+            <option value="불교">불교</option>
+            <option value="천주교">천주교</option>
+            <option value="기타">기타</option>
+            <option value="무교">무교</option>
+            </select><br/><br/>
+    
+    연애관 : 보수적 <input type = "range" min = "0" max = "100" step = "10" name = "mind" value="<%=this_post.mind%>"> 자유로움 <br/><br/>
+    
+    </div>
+    
+    
+    <button type="submit" ><%=submit%></button> 
+</form>

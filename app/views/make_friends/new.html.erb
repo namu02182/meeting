@@ -1,0 +1,6 @@
+<h1>내 친구의 프로필 대신 등록</h1>
+
+<%= render 'profile_form', path: @create_path, this_post: @empty_post, visible: "", method: "POST", submit: "등록하기" %>
+
+<button><a href="/posts/my_loundge/<%=current_user.id%>">뒤로가기</a></button>
+    
