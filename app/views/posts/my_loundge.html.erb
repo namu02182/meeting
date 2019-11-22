@@ -16,13 +16,20 @@
 
 <% if @current_user_made_up_friend.exists? %>
     <% @current_user_made_up_friend.each do |p| %>
-        <%=p.name%>님 <a href="/make_friends/<%=current_user.id%>,<%=p.id%>", method: "GET">프로필보기</a><br>
-        <a href="/make_friends/new", method: "POST">(+)친구 추가하기</a>
+        <%=p.name%>님 <a href="/posts/<%=current_user.id%>/make_friends/<%=p.id%>", method: "GET">프로필보기</a><br>
         <!--<a href="/posts/loundge", method: "GET"> 호감 보이기</a><br>-->
     <% end %>
 <% else %>
   자 이제, 친구를 등록해보세요!<br/>
-  <a href="/posts/<%=current_user.id%>/make_friends/new", method: "POST">(+)친구 추가하기</a>
+<% end %>
+<hr/>
+  <a href="/posts/<%=current_user.id%>/make_friends/new", method: "POST">(+)친구 추가하기</a><br/><br/>
+  또는.. 간단히 등록하기<br/>
+    <%= form_for MakeFriend.new, url: post_make_friends_path(current_user.id), method: "POST" do |f| %>
+    이름: <%= f.text_field :name %>
+    간단소개: <%= f.text_field :selfintroduction %>
+    <%= f.submit "간편 등록하기" %>
+
 <% end %>
 
 

@@ -19,21 +19,26 @@ class MakeFriendsController < ApplicationController
   def create
     @made_friends = MakeFriend.create(make_friends_params)
     @made_friends.user_id = current_user.id
-    @make_friends.save
-    
-    redirect_to "/posts/#{current_user.id}/make_friends/#{@made_friends.id}"
+    @made_friends_easy = MakeFriend.new
+    @made_friends_easy.name = params[:make_friend][:name]
+    @made_friends_easy.selfintroduction = params[:make_friend][:selfintroduction]
+    @made_friends_easy.user_id = params[:owner_id]
+    @made_friends_easy.save!
+    # @make_friends.save
+    redirect_to "/posts/my_loundge/#{current_user.id}"
   end
   def edit
     # @post = Post.find(params[:id])
-    @update_path = "#{current_user.id}/update"
+    @update_path = params[:id]
   end
 
   def update
     # @post = Post.find(params[:id])
-    @current_user_post.update(post_params)
+    @this_friend = MakeFriend.find_by(id: params[:id], user_id: current_user.id)
+    @this_friend.update(make_friends_params)
     respond_to do |format|
-      if @current_user_post.update(post_params)
-        format.html { redirect_to "/posts/#{@current_user_post.owner_id}", notice: '프로필이 성공적으로 수정됐습니다.' }
+      if @this_friend.update(make_friends_params)
+        format.html { redirect_to "/posts/#{current_user.id}/make_friends/#{params[:id]}", notice: '친구 프로필이 성공적으로 수정됐습니다.' }
       else
         format.html { render :edit }
       end
@@ -46,7 +51,8 @@ class MakeFriendsController < ApplicationController
     session[:my_previous_url] = URI(request.referer || '').path
     end
     def make_friends_params
-      params.permit(:name, :id, :sex, :age, :home, :job, :workplace, :height, :selfintroduction,  :comment, :religion, :smoking, :drink, :mind, :phone, :user_id)
+      params.require(:make_friend).permit(:name, :id, :sex, :age, :home, :job, :workplace,
+          :height, :selfintroduction,  :comment, :religion, :smoking, :drink, :mind, :phone, :owner_id, make_friend: [:id, :name, :selfintroduction])
     end
     
     def current_user_made_up_friend

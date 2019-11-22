@@ -1,4 +1,4 @@
-<i id="notice"><%= notice %></i>
+<i id="notice"><%= notice %></i><br>
 
 <%= @post.name %>님의 프로필<br/>
 
@@ -34,7 +34,7 @@
   <strong>연애스타일:</strong>
   <%= @post.mind %><br/><br/>
 
-<% if @post.owner_id == current_user.id %>
+<% if @post.owner_id.to_i == current_user.id %>
     <button><%= link_to '수정', edit_post_path(@post) %></button>
 <% else %>
     <button> <a href="/posts/loundge/<%=@post.owner_id%>", method: "GET">친구 라운지로 이동 </button>  

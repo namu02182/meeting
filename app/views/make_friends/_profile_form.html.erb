@@ -1,4 +1,4 @@
-<form action="/posts/<%=current_user.id%>/make_friends/" method="<%=method%>" >
+<form action="/posts/<%=current_user.id%>/make_friends/<%= path %>" method="<%=method%>" >
     <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
     <div class="profile_input_mandatory">
     이름 : <input type="text" name="name" required="true" value="<%= this_post.name %>" ><br/><br/>
@@ -11,24 +11,7 @@
     <div class="profile_input_mandatory">
     나이 :  <input type = "number" min = "20" max = "100" step = "1" name = "age" value="<%= this_post.age %>"><br/><br/>
     </div>
-    
-<!--    <script src= -->
-<!--"https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"> -->
-<!--    </script> -->
-      
-<!--    <script type="text/javascript"> -->
-<!--        $(document).ready(()=>{ -->
-<!--            $("#select option[value=]").attr('selected', 'selected'); -->
-<!--        });   -->
-<!--    </script> -->
-<!--    <div class="profile_input_mandatory">    -->
-<!--    연애상태 : <select name="status" value="">-->
-<!--                   <option disabled selected>현재 연애상태</option>-->
-<!--                   <option value="솔로">솔로</option>-->
-<!--                   <option value="연애중">연애중</option>-->
-<!--                   <option value="유부">유부</option>-->
-<!--               </select><br/><br/>-->
-<!--    </div>-->
+ 
     <div class="profile_input_mandatory">    
     프로필 사진<br/><br/>
     </div>
