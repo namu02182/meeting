@@ -2,6 +2,7 @@ class PostsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_post, only: [:show, :edit, :update, :destroy, :friend_loundge]
   before_action :current_user_post
+  before_action :friendship
   after_action :save_my_previous_url, only: [:new, :show, :loundge]
 
 
@@ -15,10 +16,13 @@ class PostsController < ApplicationController
     # @my_friend_request = Post.users_ids.where(id: current_user.id)
     # @my_friends = Post.where(post_id: Friend.where(post_id: current_user.id).select(:user_id), user_id: current_user.id)
     # @my_friends = Post.where(owner_id: Friend.where(user_id: Post.where(owner_id: current_user.post_ids).pluck(:owner_id), post_id: current_user.id).pluck(:user_id))
-    @my_friends = Post.where(owner_id: Friend.where(user_id: current_user.owner_ids, owner_id: current_user.id).pluck(:user_id))
-    @my_requests = Post.where(owner_id: current_user.owner_ids).where.not(id: @my_friends.pluck(:id))
+    @my_requests = Post.where(owner_id: Friend.where(user_id: current_user.id).pluck(:owner_id))
+    @my_friends = Post.where(owner_id: Friend.where(owner_id: current_user.id, user_id: @my_requests.pluck(:owner_id)).pluck(:user_id))
+    @my_requests_not_my_friends = @my_requests.where.not(id: @my_friends.pluck(:id))
+    # Friend.where(user_id: current_user.owner_ids, owner_id: current_user.id).pluck(:user_id))
     @friend_requests = Post.where(owner_id: Friend.where(owner_id: current_user.id).pluck(:user_id)).where.not(id: @my_friends.pluck(:id))
     # @who_loves_my_friend = Heart.where()
+    @love_request = Heart.where(user_id: current_user.id)
   end
   
   
@@ -36,7 +40,7 @@ class PostsController < ApplicationController
     @posts_not_mine = Post.where.not(owner_id: current_user.id)
     # @loundge_owner = User.find(@post.owner_id).post_ids.pluck(:owner_id)
     # @friendship = Friend.where(user_id: Post.where(owner_id: User.find(@post.owner_id).post_ids).pluck(:owner_id), post_id: @post.owner_id)
-    @friendship = Friend.where(user_id: User.find(@post.owner_id).owner_ids, owner_id: @post.owner_id)
+    # Friend.where(user_id: User.find(@post.owner_id).owner_ids, owner_id: @post.owner_id)
     @his_or_her_friends = Post.where(owner_id: @friendship.pluck(:user_id))
     @recommended_solos_not_my_sex = @his_or_her_friends.where.not(sex: @current_user_post.sex)
 
@@ -50,7 +54,8 @@ class PostsController < ApplicationController
   end
   
   def my_loundge
-    @my_friends = Post.where(owner_id: Friend.where(user_id: current_user.owner_ids, owner_id: current_user.id).pluck(:user_id))
+    # @my_friends = Post.where(owner_id: Friend.where(user_id: current_user.owner_ids, owner_id: current_user.id).pluck(:user_id))
+    @my_friends = Post.where(owner_id: Friend.where(owner_id: current_user.id, user_id: Post.where(owner_id: Friend.where(user_id: current_user.id).pluck(:owner_id)).pluck(:owner_id)).pluck(:user_id))
     @current_user_made_up_friend = current_user.make_friends.all
   end
 
@@ -112,5 +117,11 @@ class PostsController < ApplicationController
     def save_my_previous_url
     # session[:previous_url] is a Rails built-in variable to save last url.
     session[:my_previous_url] = URI(request.referer || '').path
+    end
+    
+    def friendship
+      #current_user와 친구인 사람의 아이디 = @friendship.pluck(:user_id)
+      @friendship = Friend.where(owner_id: current_user.id, user_id: Post.where(owner_id: Friend.where(user_id: current_user.id).pluck(:owner_id)).pluck(:owner_id))
+      @friend_id = @friendship.pluck(:user_id)
     end
 end

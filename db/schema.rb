@@ -17,22 +17,18 @@ ActiveRecord::Schema.define(version: 2019_11_22_180141) do
     t.integer "owner_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["owner_id"], name: "index_friends_on_owner_id"
-    t.index ["user_id"], name: "index_friends_on_user_id"
   end
 
   create_table "hearts", force: :cascade do |t|
     t.integer "user_id"
-    t.integer "email_id"
-    t.integer "post_id"
+    t.integer "lover_id"
+    t.integer "host_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["email_id"], name: "index_hearts_on_email_id"
-    t.index ["post_id"], name: "index_hearts_on_post_id"
-    t.index ["user_id"], name: "index_hearts_on_user_id"
   end
 
   create_table "make_friends", force: :cascade do |t|
+    t.string "friend_id"
     t.string "name"
     t.string "sex"
     t.string "age"
@@ -47,7 +43,6 @@ ActiveRecord::Schema.define(version: 2019_11_22_180141) do
     t.integer "drink"
     t.integer "mind"
     t.string "phone"
-    t.string "owner_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

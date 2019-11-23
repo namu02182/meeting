@@ -9,9 +9,9 @@
       <a href="/posts/my_loundge/<%=current_user.id%>">내 라운지로 이동</a>
       <%= link_to '프로필 보기', post_path(current_user.id) %><br>
         <hr>
-        <h2 id="followers">내가 친구 신청한 사람들 (<%= @my_requests.size %>명) </h2>
-        <% if @my_requests.exists? %>
-          <% @my_requests.each do |p| %>
+        <h2 id="followers">내가 친구 신청한 사람들 (<%= @my_requests_not_my_friends.size %>명) </h2>
+        <% if @my_requests_not_my_friends.exists? %>
+          <% @my_requests_not_my_friends.each do |p| %>
             <a href="/posts/<%=p.owner_id%>", method: "GET"><%=p.name%></a>님에게 친구신청 했어요!
             <%= link_to "친구신청 취소", friends_path(p.owner_id) %><br>
           <% end %>
@@ -34,7 +34,7 @@
           <% @my_friends.each do |p| %>  
             <a href="/posts/<%=p.owner_id%>", method: "GET"><%=p.name%></a>님
             <a href="/posts/friend_loundge/<%=p.owner_id%>", method: "GET">라운지로 이동</a>
-            나에게 이 친구룰 소개시켜달라고 한 친구는? <%= p.hearts.size %>명! 
+            나에게 이 친구룰 소개시켜달라고 한 친구는? <%= @love_request.where(post_id: p.owner_id).size %>명! 
             <a href="/<%=current_user.id%>/<%=p.owner_id%>/lovers/", method: "GET">보러가기</a>
             
             <%= link_to "친구끊기", friends_path(p.owner_id) %> <br>

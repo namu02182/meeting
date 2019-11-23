@@ -1,6 +1,7 @@
 class CreateMakeFriends < ActiveRecord::Migration[5.2]
   def change
     create_table :make_friends do |t|
+      t.string :friend_id
       t.string :name
       t.string :sex
       t.string :age
@@ -15,8 +16,6 @@ class CreateMakeFriends < ActiveRecord::Migration[5.2]
       t.integer :drink
       t.integer :mind
       t.string :phone
-      t.string :owner_id
-      t.string :user_id, foreign_key: true
       t.timestamps
     end
   end
