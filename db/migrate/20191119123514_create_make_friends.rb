@@ -15,7 +15,8 @@ class CreateMakeFriends < ActiveRecord::Migration[5.2]
       t.integer :drink
       t.integer :mind
       t.string :phone
-      t.string :user_id
+      t.string :owner_id
+      t.string :user_id, foreign_key: true
       t.timestamps
     end
   end

@@ -18,12 +18,11 @@ class MakeFriendsController < ApplicationController
 
   def create
     @made_friends = MakeFriend.create(make_friends_params)
-    @made_friends.user_id = current_user.id
-    @made_friends_easy = MakeFriend.new
-    @made_friends_easy.name = params[:make_friend][:name]
-    @made_friends_easy.selfintroduction = params[:make_friend][:selfintroduction]
-    @made_friends_easy.user_id = params[:owner_id]
-    @made_friends_easy.save!
+    # @made_friends_easy = MakeFriend.new
+    # @made_friends_easy.name = params[:make_friend][:name]
+    # @made_friends_easy.selfintroduction = params[:make_friend][:selfintroduction]
+    # @made_friends_easy.user_id = params[:owner_id]
+    # @made_friends_easy.save!
     # @make_friends.save
     redirect_to "/posts/my_loundge/#{current_user.id}"
   end
@@ -34,7 +33,7 @@ class MakeFriendsController < ApplicationController
 
   def update
     # @post = Post.find(params[:id])
-    @this_friend = MakeFriend.find_by(id: params[:id], user_id: current_user.id)
+    @this_friend = MakeFriend.find_by(id: params[:id], owner_id: current_user.id)
     @this_friend.update(make_friends_params)
     respond_to do |format|
       if @this_friend.update(make_friends_params)
@@ -51,8 +50,8 @@ class MakeFriendsController < ApplicationController
     session[:my_previous_url] = URI(request.referer || '').path
     end
     def make_friends_params
-      params.require(:make_friend).permit(:name, :id, :sex, :age, :home, :job, :workplace,
-          :height, :selfintroduction,  :comment, :religion, :smoking, :drink, :mind, :phone, :owner_id, make_friend: [:id, :name, :selfintroduction])
+      params.permit(:name, :owner_id, :sex, :age, :home, :job, :workplace,
+          :height, :selfintroduction,  :comment, :religion, :smoking, :drink, :mind, :phone, make_friend: [:id, :name, :selfintroduction])
     end
     
     def current_user_made_up_friend

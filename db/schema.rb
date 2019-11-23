@@ -47,7 +47,7 @@ ActiveRecord::Schema.define(version: 2019_11_22_180141) do
     t.integer "drink"
     t.integer "mind"
     t.string "phone"
-    t.string "user_id"
+    t.string "owner_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
