@@ -1,9 +1,12 @@
 여기서 이제 lovers 가 보일거임!
 
-  <% if @lovers.exists? %>
-          <% @lovers.each do |p| %>
-              <a href="/posts/<%=p.owner_id%>", method: "GET"><%=p.name%></a>님이 친구신청 했어요! 
+  <% if @love_request_to_me_from_friend.exists? %>
+          <% @love_request_to_me_from_friend.each do |love| %>
+              <a href="/posts/<%=love.user_id%>", method: "GET"><%=Post.find_by(owner_id: love.user_id).name%></a>님이 
+              <a href="/posts/<%=love.lover_id%>", method: "GET"><%=Post.find_by(owner_id: love.user_id).name%></a>을 소개해 달래요!
+              <a href="", method: "GET">연결해주기!</a>
+              <br>
           <% end %>
     <% else %>
-    
+    아직 아무도 나에게 소개팅 신청을 하지 않았어요!
     <% end %>

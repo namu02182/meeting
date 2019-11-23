@@ -26,10 +26,10 @@ class PostsController < ApplicationController
   end
   
   
-  def who_loves_my_friend(person)
-     Post.where(owner_id: Heart.where(post_id: person.owner_id).pluck(:user_id))
-  end
-  helper_method :who_loves_my_friend
+  # def who_loves_my_friend(person)
+  #   Post.where(owner_id: Heart.where(post_id: person.owner_id).pluck(:user_id))
+  # end
+  # helper_method :who_loves_my_friend
   
   def show
     @back_url = session[:my_previous_url]
@@ -58,6 +58,11 @@ class PostsController < ApplicationController
     @my_friends = Post.where(owner_id: Friend.where(owner_id: current_user.id, user_id: Post.where(owner_id: Friend.where(user_id: current_user.id).pluck(:owner_id)).pluck(:owner_id)).pluck(:user_id))
     @current_user_made_up_friend = current_user.make_friends.all
   end
+
+  def lovers
+    @love_request_to_me_from_friend = Heart.where(host_id: current_user.id)
+  end
+
 
   def new
     @create_path = "#{current_user.id}/create"

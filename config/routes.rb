@@ -9,9 +9,10 @@ Rails.application.routes.draw do
   #   end
   #   unauthenticated do
   #     root 'devise/sessions#new', as: :unauthenticated_root
-  #   end
+  #   end<%=current_user.id%>/<%=p.owner_id
   # end
   get 'posts/friend_loundge/:host_id/:lover_id' => 'hearts#toggle_heart', as: :hearts
+  get 'posts/:host_id/lovers' => 'posts#lovers'
   get 'friends/become_friends/:owner_id' => 'friends#become_friends', as: :friends
   # get 'likes/start_love/:host_id/:id' => 'likes#start_love', as: :likes
   resources :posts, :except => [:create]
