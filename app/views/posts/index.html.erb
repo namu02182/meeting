@@ -34,8 +34,8 @@
           <% @my_friends.each do |p| %>  
             <a href="/posts/<%=p.owner_id%>", method: "GET"><%=p.name%></a>님
             <a href="/posts/friend_loundge/<%=p.owner_id%>", method: "GET">라운지로 이동</a>
-            이 친구에게 호감보인 친구는? <%= p.hearts.size %>명! 
-            <a href="/posts/lovers/<%=p.owner_id%>", method: "GET">보러가기</a>
+            나에게 이 친구룰 소개시켜달라고 한 친구는? <%= p.hearts.size %>명! 
+            <a href="/<%=current_user.id%>/<%=p.owner_id%>/lovers/", method: "GET">보러가기</a>
             
             <%= link_to "친구끊기", friends_path(p.owner_id) %> <br>
           <% end %>

@@ -9,4 +9,6 @@ class Post < ApplicationRecord
     # dependent 필수
     has_many :comments, :dependent => :destroy
     has_many :hearts
+    has_many :emails, through: :hearts, class_name: 'User', :foreign_key => 'email_id', :dependent => :destroy
+    # has_many :hearts, :foreign_key => "owner_id", class_name: 'Post', :dependent => :destroy
 end

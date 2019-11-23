@@ -23,9 +23,11 @@ ActiveRecord::Schema.define(version: 2019_11_22_180141) do
 
   create_table "hearts", force: :cascade do |t|
     t.integer "user_id"
+    t.integer "email_id"
     t.integer "post_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["email_id"], name: "index_hearts_on_email_id"
     t.index ["post_id"], name: "index_hearts_on_post_id"
     t.index ["user_id"], name: "index_hearts_on_user_id"
   end

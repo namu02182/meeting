@@ -12,6 +12,7 @@ user_7 = User.create(email: "7@7.com", password: "123123", password_confirmation
 user_8 = User.create(email: "8@8.com", password: "123123", password_confirmation: "123123")
 user_9 = User.create(email: "9@9.com", password: "123123", password_confirmation: "123123")
 user_10 = User.create(email: "10@10.com", password: "123123", password_confirmation: "123123")
+user_11 = User.create(email: "11@11.com", password: "123123", password_confirmation: "123123")
 
 # 기존 글 삭제
 Post.destroy_all
@@ -25,6 +26,7 @@ post_5 = Post.create(name: "여자3호(싱글)", owner_id: "4", sex: "여자", s
 post_6 = Post.create(name: "여자4호(싱글)", owner_id: "3", sex: "여자", selfintroduction: "안녕히계세요", status: "솔로", age: '23', home: '경상남도')
 post_7 = Post.create(name: "남자5호(싱글아님)", owner_id: "2", sex: "남자", selfintroduction: "저는보라카이갑니다", status: "연애중", age: '23', home: '서울')
 post_8 = Post.create(name: "남자6호(싱글)", owner_id: "1", sex: "남자", selfintroduction: "코딩재밌다", status: "솔로", age: '23', home: '서울')
+post_11 = Post.create(name: "이사람은 모든사람과 친구임", owner_id: "11", sex: "남자", selfintroduction: "코딩재밌다", status: "솔로", age: '23', home: '서울')
 
 # post_1.comments.create(body: "네 안녕하세요!")
 # post_1.comments.create(body: "저는 별로...")
@@ -42,7 +44,6 @@ post_8 = Post.create(name: "남자6호(싱글)", owner_id: "1", sex: "남자", s
 
 # # 더미 친구요청들 생성
 #5번하고 10번은 프로필 등록 안 했음
-user_1.friends.create(owner_id: 9)
 user_2.friends.create(owner_id: 9)
 user_3.friends.create(owner_id: 8)
 user_4.friends.create(owner_id: 7)
@@ -65,3 +66,23 @@ user_5.friends.create(owner_id: 6)
 user_7.friends.create(owner_id: 4)
 user_8.friends.create(owner_id: 3)
 user_2.friends.create(owner_id: 2)
+user_1.friends.create(owner_id: 11)
+user_2.friends.create(owner_id: 11)
+user_3.friends.create(owner_id: 11)
+user_4.friends.create(owner_id: 11)
+user_5.friends.create(owner_id: 11)
+user_6.friends.create(owner_id: 11)
+user_7.friends.create(owner_id: 11)
+user_8.friends.create(owner_id: 11)
+user_9.friends.create(owner_id: 11)
+user_10.friends.create(owner_id: 11)
+user_11.friends.create(owner_id: 1)
+user_11.friends.create(owner_id: 2)
+user_11.friends.create(owner_id: 3)
+user_11.friends.create(owner_id: 4)
+user_11.friends.create(owner_id: 5)
+user_11.friends.create(owner_id: 6)
+user_11.friends.create(owner_id: 7)
+user_11.friends.create(owner_id: 8)
+user_11.friends.create(owner_id: 9)
+user_11.friends.create(owner_id: 10)
