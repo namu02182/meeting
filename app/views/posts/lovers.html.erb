@@ -1,10 +1,17 @@
 <h1>누가 <%= Post.find_by(owner_id: params[:lover_id]).name%>를 소개해 달라고 했을까요?</h1>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js"></script>
+<br>
+
   <% if @love_request.where(host_id: current_user.id).exists? %>
           <% @love_request.where(host_id: current_user.id).each do |love| %>
               <a href="/posts/<%=love.user_id%>", method: "GET"><%=Post.find_by(owner_id: love.user_id).name%></a>님이 
               <a href="/posts/<%=love.lover_id%>", method: "GET"><%=Post.find_by(owner_id: love.lover_id).name%></a>을 소개해 달래요!
-              <a href="", method: "GET">연결해주기!</a>
+              <!--<button class="copy">연결해주기!</button>-->
+              <button class="clipboard-btn" onClick='showMessage()'
+                data-clipboard-text="<%=Post.find_by(owner_id: love.lover_id).name%>님&#10;연락처 : <%=Post.find_by(owner_id: love.lover_id).phone%>">
+                연결해주기!</button>
               <br>
           <% end %>
     <% else %>
@@ -13,3 +20,42 @@
     
     <hr>
 <a href="/posts", method: "GET">초기화면으로 돌아가기</a>
+<script>
+  $(document).ready(function(){  
+    var clipboard = new Clipboard('[class^="clipboard-btn"]');
+  });
+  
+  function showMessage(){
+				alert("이 분의 연락처를 클립보드에 복사했습니다!");
+			}
+//   $( document ).ready(function() {
+//   clipboard.on('success', function(e) {
+//     $(e.trigger).text("이 분의 연락처를 클립보드에 복사했어요!");
+//     e.clearSelection();
+//     setTimeout(function() {
+//       $(e.trigger).text("복사");
+//     }, 2500);
+//   });
+
+//   clipboard.on('error', function(e) {
+//     $(e.trigger).text("연락처 복사 실패!");
+//     setTimeout(function() {
+//       $(e.trigger).text("복사");
+//     }, 2500);
+//   });
+// });
+
+// var clipboard = new Clipboard('.clipboard-btn');
+
+// // $( document ).ready(function() {
+// //     clipboard.on('success', function(e) {
+// //     setTooltip(e.trigger, 'Copied!');
+// //     hideTooltip(e.trigger);
+// //   });
+  
+// //   clipboard.on('error', function(e) {
+// //     setTooltip(e.trigger, 'Failed!');
+// //     hideTooltip(e.trigger);
+// //   });
+// // });
+</script>

@@ -43,7 +43,7 @@ class PostsController < ApplicationController
     # Friend.where(user_id: User.find(@post.owner_id).owner_ids, owner_id: @post.owner_id)
     @his_or_her_friends = Post.where(owner_id: @friendship.pluck(:user_id))
     @recommended_solos_not_my_sex = @his_or_her_friends.where.not(sex: @current_user_post.sex)
-
+    @made_friends_not_my_sex = MakeFriend.where(friend_id: params[:id]).where.not(sex: @current_user_post.sex)
     # heart = Heart.find_by(user_id: current_user.id, post_id: params[:id])
     # if heart.nil?
     #   @loveletter = "이 사람을 소개시켜주세요!"
@@ -56,7 +56,7 @@ class PostsController < ApplicationController
   def my_loundge
     # @my_friends = Post.where(owner_id: Friend.where(user_id: current_user.owner_ids, owner_id: current_user.id).pluck(:user_id))
     @my_friends = Post.where(owner_id: Friend.where(owner_id: current_user.id, user_id: Post.where(owner_id: Friend.where(user_id: current_user.id).pluck(:owner_id)).pluck(:owner_id)).pluck(:user_id))
-    @current_user_made_up_friend = current_user.make_friends.all
+    @current_user_made_up_friend = MakeFriend.where(friend_id: current_user.id) 
   end
 
   def lovers
