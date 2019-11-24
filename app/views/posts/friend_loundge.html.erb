@@ -1,3 +1,6 @@
+<% if @friendship.find_by(user_id: @post.owner_id).nil? %>
+접근 권한이 없습니다. 친구 신청을 하세요!
+<%else %>
 <h1>친구라운지</h1>
 이름 : <%= @post.name %>
 간단소개 : <%= @post.selfintroduction %>
@@ -8,16 +11,18 @@
 <!--나랑 친구는 아닌 사람들 중에서 솔로 이성들만 보이도록 기능 구현할라하다가, 그냥 나랑 친구인 사람들도 보여도 될듯!-->
 <% @recommended_solos_not_my_sex.each do |p| %>
     <%=p.name%>님 <a href="/posts/<%=p.owner_id%>", method: "GET">프로필보기</a>
-    <% if Heart.find_by(user_id: current_user.id, lover_id: p.owner_id.to_i).nil? 
+    <% if Heart.find_by(user_id: current_user.id, lover_id: p.owner_id).nil? 
         @loveletter = "이 사람을 소개시켜주세요!"
+        @text = "소개신청"
        else
-        @loveletter = "소개 신청 취소"
+        @loveletter = "#{Post.find_by(owner_id: Heart.find_by(lover_id: p.owner_id, user_id: current_user.id).host_id).name}님에게 소개신청했습니다!"
+        @text = '취소'
        end %>
-    <a href="<%= @post.owner_id%>/<%=p.owner_id%>", method: "GET"> <%= @loveletter%> </a> (이사람에게 호감을 보인 사람들 : <%= Heart.where(lover_id: p.owner_id).size %>명)<br>
+    <%= @loveletter%> <a href="<%= @post.owner_id%>/<%=p.owner_id%>", method: "GET"><%=@text%></a> (이사람에게 호감을 보인 사람들 : <%= Heart.where(lover_id: p.owner_id).size %>명)<br>
 <% end %>
 <hr>
 
 
 
 <a href="/posts", method: "GET">초기화면으로 돌아가기</a>
-
+<% end %>

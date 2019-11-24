@@ -22,7 +22,7 @@ class PostsController < ApplicationController
     # Friend.where(user_id: current_user.owner_ids, owner_id: current_user.id).pluck(:user_id))
     @friend_requests = Post.where(owner_id: Friend.where(owner_id: current_user.id).pluck(:user_id)).where.not(id: @my_friends.pluck(:id))
     # @who_loves_my_friend = Heart.where()
-    @love_request = Heart.where(user_id: current_user.id)
+    @love_request = Heart.where(host_id: current_user.id)
   end
   
   
@@ -60,7 +60,7 @@ class PostsController < ApplicationController
   end
 
   def lovers
-    @love_request_to_me_from_friend = Heart.where(host_id: current_user.id)
+    @love_request = Heart.where(lover_id: params[:lover_id])
   end
 
 

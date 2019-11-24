@@ -1,12 +1,15 @@
-여기서 이제 lovers 가 보일거임!
+<h1>누가 <%= Post.find_by(owner_id: params[:lover_id]).name%>를 소개해 달라고 했을까요?</h1>
 
-  <% if @love_request_to_me_from_friend.exists? %>
-          <% @love_request_to_me_from_friend.each do |love| %>
+  <% if @love_request.where(host_id: current_user.id).exists? %>
+          <% @love_request.where(host_id: current_user.id).each do |love| %>
               <a href="/posts/<%=love.user_id%>", method: "GET"><%=Post.find_by(owner_id: love.user_id).name%></a>님이 
-              <a href="/posts/<%=love.lover_id%>", method: "GET"><%=Post.find_by(owner_id: love.user_id).name%></a>을 소개해 달래요!
+              <a href="/posts/<%=love.lover_id%>", method: "GET"><%=Post.find_by(owner_id: love.lover_id).name%></a>을 소개해 달래요!
               <a href="", method: "GET">연결해주기!</a>
               <br>
           <% end %>
     <% else %>
     아직 아무도 나에게 소개팅 신청을 하지 않았어요!
     <% end %>
+    
+    <hr>
+<a href="/posts", method: "GET">초기화면으로 돌아가기</a>

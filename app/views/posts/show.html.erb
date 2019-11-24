@@ -10,8 +10,11 @@
 <strong>성별:</strong>
   <%= @post.sex %><br/><br/>
 
-<strong>나이</strong>
+<strong>나이:</strong>
   <%= @post.age %><br/><br/>
+  
+<strong>간편소개:</strong>
+  <%= @post.selfintroduction %><br/><br/>
 
 <strong>연애상태</strong>
   <%= @post.status %><br/><br/>
@@ -37,7 +40,7 @@
 <% if @post.owner_id.to_i == current_user.id %>
     <button><%= link_to '수정', edit_post_path(@post) %></button>
 <% else %>
-    <button> <a href="/posts/loundge/<%=@post.owner_id%>", method: "GET">친구 라운지로 이동 </button>  
+    <button> <a href="/posts/friend_loundge/<%=@post.owner_id%>", method: "GET">친구 라운지로 이동 </button>  
 <% end %>
 <button><%= link_to '뒤로가기', @back_url %></button>
 

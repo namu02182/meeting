@@ -18,6 +18,8 @@ class MakeFriendsController < ApplicationController
 
   def create
     @made_friends = MakeFriend.create(make_friends_params)
+    @made_friends.friend_id = params[:owner_id]
+    @made_friends.save
     # @made_friends_easy = MakeFriend.new
     # @made_friends_easy.name = params[:make_friend][:name]
     # @made_friends_easy.selfintroduction = params[:make_friend][:selfintroduction]
@@ -33,7 +35,7 @@ class MakeFriendsController < ApplicationController
 
   def update
     # @post = Post.find(params[:id])
-    @this_friend = MakeFriend.find_by(id: params[:id], owner_id: current_user.id)
+    @this_friend = MakeFriend.find_by(id: params[:id], friend_id: current_user.id)
     @this_friend.update(make_friends_params)
     respond_to do |format|
       if @this_friend.update(make_friends_params)
@@ -50,17 +52,16 @@ class MakeFriendsController < ApplicationController
     session[:my_previous_url] = URI(request.referer || '').path
     end
     def make_friends_params
-      params.permit(:name, :owner_id, :sex, :age, :home, :job, :workplace,
+      params.permit(:name, :friend_id, :sex, :age, :home, :job, :workplace,
           :height, :selfintroduction,  :comment, :religion, :smoking, :drink, :mind, :phone, make_friend: [:id, :name, :selfintroduction])
     end
     
     def current_user_made_up_friend
-      @current_user_made_up_friend = current_user.make_friends.all
+      @current_user_made_up_friend = MakeFriend.where(friend_id: current_user.id)
     end
     
     def set_made_friends
-      @made_friend = current_user.make_friends.find(params[:id])
-      #post의 params[:id]는 current_user.id이며, owner_id로 넘어옵니다.
+      @made_friend = MakeFriend.where(friend_id: current_user.id).find(params[:id])
     end
   
 end

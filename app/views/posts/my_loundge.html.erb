@@ -25,6 +25,18 @@
 <hr/>
   <a href="/posts/<%=current_user.id%>/make_friends/new", method: "POST">(+)친구 추가하기</a><br/><br/>
   또는.. 간단히 등록하기<br/>
+  <form action="/posts/<%=current_user.id%>/make_friends" method="POST" >
+    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+    <div class="profile_input_easy">
+    이름 : <input type="text" name="name" required="true"> 
+    | 성별 :  <input type="radio" name="sex" value="남자"> 남자
+            <input type="radio" name="sex" value="여자"> 여자
+    | 간단소개 : <input type=textarea name = "comment" cols = "30" rows = "1" placeholder="소개하고픈 제 친구입니다" value="소개하고픈 제 친구입니다"></input>
+    <button type="submit" >간편 등록하기</button> 
+    </div>
+</form>
+
+
 
 
 
