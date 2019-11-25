@@ -29,9 +29,12 @@
                    <option value="유부">유부</option>
                </select><br/><br/>
     </div>
+   
     <div class="profile_input_mandatory">    
-    프로필 사진<br/><br/>
-    </div>
+    프로필 사진<br/>
+    <input name="image" type="file">
+    </div><br/>
+    
     <div class="profile_input_mandatory">    
     거주지: <select name="home" value="<%= this_post.home %>">
             <option disabled selected>지역선택</option>

@@ -116,7 +116,7 @@ class PostsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     # 여기서 허용된 params들만 갖고올 수 있도록. 
     def post_params
-      params.permit(:name, :sex, :age, :status, :home, :job, :workplace, :height, :selfintroduction, :comment, :owner_id, :religion, :smoking, :drink, :mind, :phone)
+      params.permit(:name, :image, :sex, :age, :status, :home, :job, :workplace, :height, :selfintroduction, :comment, :owner_id, :religion, :smoking, :drink, :mind, :phone)
     end
     
     def save_my_previous_url

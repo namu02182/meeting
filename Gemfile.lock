@@ -269,6 +269,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activestorage
   any_login
   bootsnap (>= 1.1.0)
   byebug

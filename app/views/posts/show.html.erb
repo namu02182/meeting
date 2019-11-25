@@ -6,6 +6,15 @@
 
 <strong>이름:</strong>
   <%= @post.name %><br/><br/>
+  
+<strong>프로필 사진</strong><br/>
+<% if @post.image.attached? %>
+  <p>
+    <%= image_tag url_for(@post.image) %>
+  </p>
+<% else %>
+  <p>이미지 없음</p>
+<% end %>
 
 <strong>성별:</strong>
   <%= @post.sex %><br/><br/>

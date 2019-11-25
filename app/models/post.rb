@@ -1,4 +1,5 @@
 class Post < ApplicationRecord
+    has_one_attached :image
     # dependent 필수
     # has_many :likes, dependent: :destroy
     # has_many :users, through: :likes
