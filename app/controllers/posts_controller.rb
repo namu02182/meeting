@@ -85,6 +85,9 @@ class PostsController < ApplicationController
   def update
     # @post = Post.find(params[:id])
     @current_user_post.update(post_params)
+    @current_user_post.profilepics.attach(params[:profilepics])
+    @current_user_post.save
+    
     respond_to do |format|
       if @current_user_post.update(post_params)
         format.html { redirect_to "/posts/#{@current_user_post.owner_id}", notice: '프로필이 성공적으로 수정됐습니다.' }
@@ -116,7 +119,7 @@ class PostsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     # 여기서 허용된 params들만 갖고올 수 있도록. 
     def post_params
-      params.permit(:name, :image, :sex, :age, :status, :home, :job, :workplace, :height, :selfintroduction, :comment, :owner_id, :religion, :smoking, :drink, :mind, :phone)
+      params.permit(:name, :profilepics, :sex, :age, :status, :home, :job, :workplace, :height, :selfintroduction, :comment, :owner_id, :religion, :smoking, :drink, :mind, :phone)
     end
     
     def save_my_previous_url

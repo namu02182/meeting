@@ -8,9 +8,9 @@
   <%= @post.name %><br/><br/>
   
 <strong>프로필 사진</strong><br/>
-<% if @post.image.attached? %>
+<% if @post.profilepics.attached? %>
   <p>
-    <%= image_tag url_for(@post.image) %>
+    <%= image_tag url_for(@post.profilepics) %>
   </p>
 <% else %>
   <p>이미지 없음</p>
