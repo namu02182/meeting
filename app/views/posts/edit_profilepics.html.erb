@@ -1,0 +1,28 @@
+<h1>프로필사진 변경하기</h1>
+
+<div  style = "display:inline-block; padding: 10px 10px 20px 0px;">
+현재 등록된 사진 : <br>
+<% if @post.profilepics? %>
+<%= image_tag(@post.profilepics.url, alt: '로드되지 않았습니다', size: "500") %>
+
+<% else %>
+  <p>이미지 없음</p>
+<% end %>
+</div>
+
+<div  style = "display:inline-block; padding: 10px 10px 20px 10px;vertical-align:top;">
+새로 등록할 사진 선택 :
+<br><br>
+<%= form_for @post, url: update_profilepics_path, method: "post" do |form| %>
+  <div class="field">
+    <%= form.file_field :profilepics%>
+  </div>
+<br>
+</div>
+  <div class="actions">
+    <%= form.submit "프로필사진 변경하기"%>
+  </div>
+<% end %>
+
+<br>
+<button><%= link_to '뒤로가기', "/posts/#{@post.owner_id}" %></button>

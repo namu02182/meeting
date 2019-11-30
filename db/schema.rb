@@ -71,6 +71,7 @@ ActiveRecord::Schema.define(version: 2019_11_25_013735) do
   create_table "posts", force: :cascade do |t|
     t.string "owner_id"
     t.string "name"
+    t.string "profilepics"
     t.string "sex"
     t.string "age"
     t.string "status"

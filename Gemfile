@@ -6,7 +6,7 @@ ruby '2.6.3'
 gem 'jquery-rails'
 gem 'jquery-turbolinks'
 gem 'clipboard-rails'
-gem "aws-sdk-s3", require: false
+gem "aws-sdk-s3", '~>1', require: false
 gem 'carrierwave', github: 'carrierwaveuploader/carrierwave'
 gem 'mini_magick'
 gem 'fog-aws'

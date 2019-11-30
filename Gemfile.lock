@@ -328,7 +328,7 @@ PLATFORMS
 DEPENDENCIES
   activestorage
   any_login
-  aws-sdk-s3
+  aws-sdk-s3 (~> 1)
   bootsnap (>= 1.1.0)
   byebug
   capybara (>= 2.15)

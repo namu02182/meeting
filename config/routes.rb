@@ -13,7 +13,9 @@ Rails.application.routes.draw do
   # end
   get "posts/:id/new_profilepics" => 'posts#new_profilepics', as: :profilepics
   post "posts/:id/new_profilepics" => 'posts#new_profilepics'
-  post "posts/:id/create_profilepics" => 'posts#create_profilepics', as: :save_profile
+  post "posts/:id/create_profilepics" => 'posts#create_profilepics', as: :save_profilepics
+  get "posts/:id/edit_profilepics" => 'posts#edit_profilepics', as: :edit_profilepics
+  post "posts/:id/update_profilepics" => 'posts#update_profilepics', as: :update_profilepics
   get 'find_friend/result/:id' => 'find_friend#result'
   get 'posts/friend_loundge/:host_id/:lover_id' => 'hearts#toggle_heart', as: :hearts
   get 'posts/:host_id/lovers/:lover_id' => 'posts#lovers'

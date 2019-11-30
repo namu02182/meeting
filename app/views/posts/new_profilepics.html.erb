@@ -1,5 +1,13 @@
-
-<%= form_for @post, url: save_profile_path, method: "post" do |form| %>
+<!--<form action="/posts/:id/create_profilepics" method="POST" >-->
+<!--   <div class="profilepics">-->
+<!--    프로필사진 등록 : <input type="file" name="profilepics" ><br/><br/>-->
+<!--    </div>-->
+        
+<!--    <button type="submit" >등록하기</button> -->
+  
+  
+<!--  </form>-->
+<%= form_for @post, url: save_profilepics_path, method: "post" do |form| %>
   <div class="field">
     <%= form.label :profilepics %>
     <%= form.file_field :profilepics %>
@@ -9,3 +17,5 @@
     <%= form.submit "프로필사진 등록하기"%>
   </div>
 <% end %>
+
+<button><%= link_to '뒤로가기', "/posts/#{@post.owner_id}" %></button>

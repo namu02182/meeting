@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_post, only: [:show, :edit, :update, :destroy, :friend_loundge]
+  before_action :set_post, only: [:show, :edit, :update, :destroy, :friend_loundge, :edit_profilepics]
   before_action :current_user_post
   before_action :friendship
   after_action :save_my_previous_url, only: [:new, :show, :loundge]
@@ -82,12 +82,26 @@ class PostsController < ApplicationController
   end
   
   def create_profilepics
-    # @post = Post.find_by(owner_id: params[:id]).update(params.require(:post).permit(:profilepics))
-    @post = Post.find_by(owner_id: params[:id]).profilepics.attach(params.require(:post).permit(profilepics: []))
+    @post = Post.find_by(owner_id: params[:id]).update(params.require(:post).permit(:profilepics))
+    
+    # profilepics_params = params[:post].permit(profilepics: [])
+    # @post = Post.find_by(owner_id: params[:id])
+    # @post.profilepics = params.require(:post).permit(:profilepics)
+    # @post.save
+    # byebug
     # redirect_to "/posts/#{@post.owner_id}"
     redirect_to "/posts/#{params[:id]}"
   end
+  
+  def edit_profilepics
 
+  end
+
+  def update_profilepics
+    @post = Post.find_by(owner_id: params[:id]).update(params.require(:post).permit(:profilepics))
+    redirect_to "/posts/#{params[:id]}"    
+  end
+  
   def edit
     # @post = Post.find(params[:id])
     @update_path = "#{current_user.id}/update"
@@ -96,8 +110,8 @@ class PostsController < ApplicationController
   def update
     # @post = Post.find(params[:id])
     @current_user_post.update(post_params)
-    @current_user_post.profilepics.attach(params[:post][:profilepics])
-    @current_user_post.save
+    # @current_user_post.profilepics.attach(params[:post][:profilepics])
+    # @current_user_post.save
     
     respond_to do |format|
       if @current_user_post.update(post_params)
