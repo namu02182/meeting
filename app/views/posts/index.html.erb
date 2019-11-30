@@ -7,9 +7,12 @@
       <p><%= Post.find_by(owner_id: current_user.id).name %>님의 초기화면
       
       <%= link_to "로그아웃", destroy_user_session_path, data: {method: "get"} %><br/>
-      
+        
+    
+      </form>
       <a href="/posts/my_loundge/<%=current_user.id%>">내 라운지로 이동</a>
       <%= link_to '프로필 보기', post_path(current_user.id) %><br>
+      
         <hr>
         <h2 id="followers">내가 친구 신청한 사람들 (<%= @my_requests_not_my_friends.size %>명) </h2>
         <% if @my_requests_not_my_friends.exists? %>
@@ -31,8 +34,17 @@
           들어온 친구신청이 없어요!
         <% end %>
       <hr>
+      
         <h2 id="existing_friends">친구목록 (<%= @my_friends.size %>명)</h2>
         <% if @my_friends.exists?%>
+          <div class="search_bar">
+            <form action="/find_friend/result/<%=current_user.id%>" method="GET" >
+              <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+            친구 검색 : <input type="text" name="search_word" required="true" minlength="2" placeholder="친구 이름으로 검색">
+              <!--<input type="hidden" name="search_model" value="Post"></input>-->
+              <button type="submit" >검색</button> 
+            <br/>
+          </div><br>
           <% @my_friends.each do |p| %>  
             <a href="/posts/<%=p.owner_id%>", method: "GET"><%=p.name%></a>님
             <a href="/posts/friend_loundge/<%=p.owner_id%>", method: "GET">라운지로 이동</a>

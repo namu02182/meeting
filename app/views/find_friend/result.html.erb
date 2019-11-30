@@ -1,0 +1,16 @@
+검색어는 : <%= @search_word%>
+
+  <div class="search_result">
+
+    <% if @result.present?%>
+      <% @result.each do |p| %>  
+        <a href="/posts/<%=p.owner_id%>", method: "GET"><%=p.name%></a>님
+        <a href="/posts/friend_loundge/<%=p.owner_id%>", method: "GET">라운지로 이동</a>
+        나에게 이 친구를 소개시켜달라고 한 친구는? <%= @love_request.where(lover_id: p.owner_id).length %>명! 
+        <a href="/posts/<%=current_user.id%>/lovers/<%=p.owner_id%>", method: "GET">보러가기</a>
+        
+        <%= link_to "친구끊기", friends_path(p.owner_id) %> <br>
+      <% end %>
+    <% else %>
+      검색된 친구가 없네요! 친구신청을 해볼까요?
+    <% end %>

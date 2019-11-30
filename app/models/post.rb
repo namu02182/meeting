@@ -1,5 +1,6 @@
 class Post < ApplicationRecord
     has_many_attached :profilepics
+    # mount_uploader :image, S3Uploader
     # dependent 필수
     # has_many :likes, dependent: :destroy
     # has_many :users, through: :likes

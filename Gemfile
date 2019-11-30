@@ -7,6 +7,9 @@ gem 'jquery-rails'
 gem 'jquery-turbolinks'
 gem 'clipboard-rails'
 gem "aws-sdk-s3", require: false
+gem 'carrierwave', github: 'carrierwaveuploader/carrierwave'
+gem 'mini_magick'
+gem 'fog-aws'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.3'
 # Use sqlite3 as the database for Active Record

@@ -74,7 +74,18 @@ class PostsController < ApplicationController
     @post.owner_id = params[:id]
     @post.save
     
-    redirect_to "/posts/#{@post.owner_id}"
+    redirect_to "/posts/#{@post.owner_id}/new_profilepics"
+  end
+  
+  def new_profilepics
+    @post = Post.find_by(owner_id: params[:id])
+  end
+  
+  def create_profilepics
+    # @post = Post.find_by(owner_id: params[:id]).update(params.require(:post).permit(:profilepics))
+    @post = Post.find_by(owner_id: params[:id]).profilepics.attach(params.require(:post).permit(profilepics: []))
+    # redirect_to "/posts/#{@post.owner_id}"
+    redirect_to "/posts/#{params[:id]}"
   end
 
   def edit
@@ -85,7 +96,7 @@ class PostsController < ApplicationController
   def update
     # @post = Post.find(params[:id])
     @current_user_post.update(post_params)
-    @current_user_post.profilepics.attach(params[:profilepics])
+    @current_user_post.profilepics.attach(params[:post][:profilepics])
     @current_user_post.save
     
     respond_to do |format|

@@ -1,0 +1,11 @@
+
+<%= form_for @post, url: save_profile_path, method: "post" do |form| %>
+  <div class="field">
+    <%= form.label :profilepics %>
+    <%= form.file_field :profilepics %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit "프로필사진 등록하기"%>
+  </div>
+<% end %>
