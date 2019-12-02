@@ -1,16 +1,58 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>믿고하는 소개팅: 믿팅</title>
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
+  <title>믿고하는 소개팅: 믿팅</title>
+
+  <!-- Custom fonts for this theme -->
+  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+
+  <!-- Theme CSS -->
+  <link href="/css/freelancer.min.css" rel="stylesheet">
+ 
+ <style>
+  @font-face { font-family: 'BMEULJIRO'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.0/BMEULJIRO.woff') format('woff'); font-weight: normal; font-style: normal; }
+  
+  body {
+    font-family: 'BMEULJIRO';
+      }
+
+  </style> 
+  
+
+
+
+
+    <!--<title>믿고하는 소개팅: 믿팅</title>-->
+    <!--<--%= csrf_meta_tags %>-->
+    <!--<--%= csp_meta_tag %>-->
+
+    <!--<--%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>-->
+    <!--<--%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>-->
+</head>
 
   <body>
     <%= yield %>
     <%= any_login_here if defined?(AnyLogin) %>
+      
+      <!-- Bootstrap core JavaScript -->
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Contact Form JavaScript -->
+  <script src="/js/jqBootstrapValidation.js"></script>
+  <script src="/js/contact_me.js"></script>
+
+  <!-- Custom scripts for this template -->
+  <script src="/js/freelancer.min.js"></script>
   </body>
 </html>
