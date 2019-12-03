@@ -1,11 +1,20 @@
 <form enctype="multipart/form-data" action="/posts/<%= path %>" method="<%=method%>" >
     <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+    <strong>프로필 사진 : </strong><br/>
+<% if this_post.profilepics? %>
+<%= image_tag(this_post.profilepics.url, alt: '로드되지 않았습니다', size: "500") %><br>
+<a href="/posts/<%=current_user.id%>/new_profilepics", method: "GET"> <%=profilepics_text%></a>
+<% else %>
+<a href="/posts/<%=current_user.id%>/new_profilepics", method: "GET"> <%=profilepics_text%></a>
+<% end %>
+  <br>
+<br/><br/>
     <div class="profile_input_mandatory">
     이름 : <input type="text" name="name" required="true" value="<%= this_post.name %>" ><br/><br/>
     </div>
     
-    <div class="profile_input_mandatory" style="display: <%=visible%>;">
-        성별 :  <input type="radio" name="sex" value="남자"> 남자
+    <div id="sex" class="profile_input_mandatory" style="display: <%=visible%>;">
+        성별 :  <input type="radio" name="sex" value="남자" required> 남자
                 <input type="radio" name="sex" value="여자"> 여자<br><br>
     </div>
     <div class="profile_input_mandatory">
@@ -18,7 +27,8 @@
       
     <script type="text/javascript"> 
         $(document).ready(()=>{ 
-            $("#select option[value=<%= this_post.status %>]").attr('selected', 'selected'); 
+            $("select option[value=<%= this_post.status %>]").attr('selected', 'selected'); 
+            $("#sex input[value=<%= this_post.sex %>]").attr('checked', 'checked'); 
         });   
     </script> 
     <div class="profile_input_mandatory">    
@@ -77,7 +87,10 @@
     
     </div>
     
-    
+    <% if this_post.profilepics? %>
     <button type="submit" ><%=submit%></button> 
+    <% else %>
+    프로필 사진을 등록하세요!!!!!
+    <% end %>
 </form>
 

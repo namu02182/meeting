@@ -1,6 +1,4 @@
-<% if @friendship.find_by(user_id: @post.owner_id).nil? %>
-접근 권한이 없습니다. 친구 신청을 하세요!
-<%else %>
+<% if friend_list(current_user.id).include?(@post.owner_id.to_i) %>
 <h1>친구라운지</h1>
 이름 : <%= @post.name %>
 간단소개 : <%= @post.selfintroduction %>
@@ -42,5 +40,7 @@
 
 
 
-<a href="/posts", method: "GET">초기화면으로 돌아가기</a>
+<%else %>
+접근 권한이 없습니다. 친구 신청을 하세요!
 <% end %>
+<a href="/posts", method: "GET">초기화면으로 돌아가기</a>

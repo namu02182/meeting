@@ -5,3 +5,15 @@
 #mainNav .navbar-nav li.nav-item span.nav-link {
   color: #fff;
 }
+
+.masthead #profilepics {
+    border-radius: 50%;
+    width: 15rem;
+    height: 15rem;
+}
+
+img.profilepics {
+    border-radius: 50%;
+    width: 15rem;
+    height: 15rem;
+}
