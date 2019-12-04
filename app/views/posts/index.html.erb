@@ -33,9 +33,9 @@
           <li class="nav-item mx-0 mx-lg-1">
             <form action="/find_friend/result/<%=current_user.id%>" method="GET" >
               <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-            <span class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"> 친구 검색:
+            <span class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"> 
               <input type="text" name="search_word" size="15" required="true" minlength="2" placeholder="이름으로 검색">
-              <button type="submit" >검색</button> </span>
+              <button type="submit" >친구검색</button> </span>
           </li>
         </ul>
       </div>
@@ -51,7 +51,7 @@
       <!-- Masthead Avatar Image -->
 
   <% if @current_user_post.profilepics? %>
-    <%= image_tag(@current_user_post.profilepics.url, id:'profilepics', alt: '로드되지 않았습니다') %>
+    <%= image_tag(@current_user_post.profilepics.url, class:'profilepics', alt: '로드되지 않았습니다') %>
   <% else %>
     <img class="masthead-avatar mb-5" src="img/avataaars.svg" alt="">
   <% end %>
@@ -59,7 +59,7 @@
       <!-- Masthead Heading -->
       <h1 class="masthead-heading text-uppercase mb-0">
 
-      <p><%= @current_user_post.name %>님! 반갑습니다!
+      <p><%= @current_user_post.name %>님! <br>반갑습니다!
       </h1>
       
       <button type="button" class="btn btn-success"><a href="/posts/my_loundge/<%=current_user.id%>">내 라운지로 이동</a></button>

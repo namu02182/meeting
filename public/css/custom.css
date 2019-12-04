@@ -17,3 +17,26 @@ img.profilepics {
     width: 15rem;
     height: 15rem;
 }
+
+a.notice.profilepics {
+  
+    color: #FFFFFF;
+    font-size: 32px;
+}
+
+#profileshowheader {
+  padding-top: calc(0.1rem + 74px);
+  padding-bottom: 0.1rem;
+}
+
+.navbar.navbar-expand-lg.bg-secondary.text-uppercase.fixed-top.profileshownav.profileshownav#mainNav {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    transition: top 0.3s;
+      position: fixed;
+}
+
+#profiletitlenav {
+  color: #FFFFFF;
+
+}

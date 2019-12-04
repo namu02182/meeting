@@ -1,26 +1,36 @@
 <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
+  <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top profileshownav" id="mainNav">
     <div class="container">
-      <a class="navbar-brand" href="/">  <img src="/img/icon/back_arrow.png" alt=""> </a>
+      <% if @post.owner_id.to_i == current_user.id %>
+        <a class="navbar-brand" href="/">  <img src="/img/icon/left_arrow.png" alt="" width="32px"> </a>
+      <% else %>
+        <a class="navbar-brand" href="<%=@back_url%>">  <img src="/img/icon/left_arrow.png" alt="" width="32px"> </a>
+      <% end %>
+      <span class="nav-link py-3 px-0 px-lg-3 rounded" id="profiletitlenav"><%= @post.name %>님의 프로필</span>
     </div>
   </nav>
-  
-  <header class="masthead bg-primary text-white text-center">
+
+  <header class="masthead bg-primary text-white text-center" id="profileshowheader">
     <div class="container d-flex align-items-center flex-column">
 
       <!-- Masthead Avatar Image -->
-      <img class="masthead-avatar mb-5" src="img/avataaars.svg" alt="">
+
+      <% if @post.profilepics? %>
+        <%= image_tag(@post.profilepics.url, class:'profilepics', alt: '로드되지 않았습니다') %>
+      <% else %>
+        <img class="masthead-avatar mb-5" src="/img/avataaars.svg" alt="">
+      <% end %>
 
       <!-- Masthead Heading -->
       <h1 class="masthead-heading text-uppercase mb-0"><!--내 프로필 보여주는 부분 시작-->
-      <% if @post.profilepics? %>
-      <%= image_tag(@post.profilepics.url, id: 'profilepics', alt: '로드되지 않았습니다', size: "500") %>
+      <% if @post.owner_id.to_i == current_user.id %>
+        <% if @post.profilepics? %>
+          <br><a href="/posts/<%=@post.owner_id%>/edit_profilepics", method: "GET" , class="notice profilepics">사진 바꾸기</a>
+        <% else %>
+          <a href="/posts/<%=@post.owner_id%>/edit_profilepics", method: "GET", class="notice profilepics">프로필 사진을 등록하세요!</a>
+        <% end %>
       <% else %>
-      <p>이미지 없음</p>
       <% end %>
-      <br><a href="/posts/<%=@post.owner_id%>/edit_profilepics", method: "GET">사진 바꾸기</a>
-      
-      <p><%= @post.name %>님의 프로필</p>
       </h1>
             <!-- Icon Divider -->
       <!--<div class="divider-custom divider-light">-->
@@ -89,8 +99,12 @@
   <%= @post.mind %><br/><br/>
 
 <% if @post.owner_id.to_i == current_user.id %>
+  <% if @post.profilepics? %>
     <button><%= link_to '수정', edit_post_path(@post) %></button>
-    <button><%= link_to '뒤로가기', '/' %></button>
+    <button><%= link_to '뒤로가기', @back_url %></button>
+  <% else %>
+    <button><%= link_to '뒤로가기', @back_url %></button>
+  <% end %>
 <% else %>
     <button> <a href="/posts/friend_loundge/<%=@post.owner_id%>", method: "GET">친구 라운지로 이동 </button>  
   <button><%= link_to '뒤로가기', @back_url %></button>
@@ -108,7 +122,18 @@
 
 
 
-
+<script>
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+  if (prevScrollpos > currentScrollPos) {
+    document.getElementById("mainNav").getElementsByClassName('navbar navbar-expand-lg bg-secondary text-uppercase fixed-top profileshownav').style.top = "0";
+  } else {
+    document.getElementById("mainNav").getElementsByClassName('navbar navbar-expand-lg bg-secondary text-uppercase fixed-top profileshownav').style.top = "-50px";
+  }
+  prevScrollpos = currentScrollPos;
+}
+</script>
 
 
 

@@ -3,7 +3,7 @@ class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy, :friend_loundge, :edit_profilepics]
   before_action :current_user_post
   # before_action :friendship
-  after_action :save_my_previous_url, only: [:new, :show, :loundge]
+  after_action :save_my_previous_url, only: [:new, :show, :loundge, :update_profilepics]
 
 
 
@@ -22,7 +22,7 @@ class PostsController < ApplicationController
   
   
   def show
-    @back_url = session[:my_previous_url]
+    @back_url = request.referer
   end
   
   def friend_loundge
@@ -110,12 +110,13 @@ class PostsController < ApplicationController
   end
   
   def edit_profilepics
+    @back_url_for_edit_profilepics = request.referer
 
   end
 
   def update_profilepics
     @post = Post.find_by(owner_id: params[:id]).update(params.require(:post).permit(:profilepics))
-    redirect_to "/posts/#{params[:id]}"    
+    redirect_to params[:url].to_s
   end
   
   private
