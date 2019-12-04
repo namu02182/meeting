@@ -1,15 +1,55 @@
-<h1><%= @post.name %>님의 프로필</h1>
+<i id="notice"><%= notice %></i><br>
+ <header class="masthead bg-primary text-white text-center">
+    <div class="container d-flex align-items-center flex-column">
 
-<strong>프로필 사진 : </strong><br/>
-  <% if @post.profilepics? %>
-    <%= image_tag(@post.profilepics.url, class: 'profilepics', alt: '로드되지 않았습니다') %>
-  <% else %>
-    <img class="masthead-avatar mb-5" src="/img/avataaars.svg" alt="" width="150">
-  <% end %>
-  <br><a href="/posts/<%=@post.owner_id%>/edit_profilepics", method: "GET">사진 바꾸기</a>
-<br/><br/>
+      <!-- Masthead Avatar Image -->
+      <img class="masthead-avatar mb-5" src="img/avataaars.svg" alt="">
 
-<strong>이름:</strong>
+      <!-- Masthead Heading -->
+      <h1 class="masthead-heading text-uppercase mb-0"><!--내 프로필 보여주는 부분 시작-->
+      <% if @post.profilepics? %>
+      <%= image_tag(@post.profilepics.url, alt: '로드되지 않았습니다', size: "500") %>
+      <% else %>
+      <p>이미지 없음</p>
+      <% end %>
+      <br><a href="/posts/<%=@post.owner_id%>/edit_profilepics", method: "GET">사진 바꾸기</a>
+      
+      <p><%= @post.name %>님의 프로필</p>
+      </h1>
+            <!-- Icon Divider -->
+      <!--<div class="divider-custom divider-light">-->
+      <!--  <div class="divider-custom-line"></div>-->
+      <!--  <div class="divider-custom-icon">-->
+      <!--    <i class="fas fa-star"></i>-->
+      <!--  </div>-->
+      <!--  <div class="divider-custom-line"></div>-->
+      <!--</div>-->
+
+      <!-- Masthead Subheading -->
+      <!--<p class="masthead-subheading font-weight-light mb-0">Graphic Artist - Web Designer - Illustrator</p>-->
+
+    </div>
+  </header>
+</br></br>
+<h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">프로필 정보</h2>
+
+      <!-- Icon Divider -->
+      <div class="divider-custom">
+        <div class="divider-custom-line"></div>
+        <div class="divider-custom-icon">
+          <i class="fas fa-star"></i>
+        </div>
+        <div class="divider-custom-line"></div>
+      </div>
+
+      <!-- Contact Section Form -->
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+          <!-- To configure the contact form email address, go to mail/contact_me.php and update the email address in the PHP file on line 19. -->
+          <form name="sentMessage" id="contactForm" novalidate="novalidate">
+            <div class="control-group">
+              <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                <strong>이름:</strong>
   <%= @post.name %><br/><br/>
   
 <strong>성별:</strong>
@@ -49,5 +89,22 @@
     <button> <a href="/posts/friend_loundge/<%=@post.owner_id%>", method: "GET">친구 라운지로 이동 </button>  
   <button><%= link_to '뒤로가기', @back_url %></button>
 <% end %>
+                <!--<input class="form-control" id="name" type="text" placeholder="Name" required="required" data-validation-required-message="Please enter your name.">-->
+                <p class="help-block text-danger"></p>
+              </div>
+            </div>
+            
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+
+
+
+
 
 
