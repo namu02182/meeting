@@ -26,7 +26,7 @@ class PostsController < ApplicationController
   end
   
   def friend_loundge
-    @back_url = session[:my_previous_url]
+    @back_url = request.referer
     @his_or_her_friends = Post.where(owner_id: friend_list(params[:id]))
     @recommended_solos_not_my_sex = @his_or_her_friends.where.not(sex: @current_user_post.sex)
     @made_friends_not_my_sex = MakeFriend.where(friend_id: params[:id]).where.not(sex: @current_user_post.sex)

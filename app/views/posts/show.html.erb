@@ -101,13 +101,10 @@
 <% if @post.owner_id.to_i == current_user.id %>
   <% if @post.profilepics? %>
     <button><%= link_to '수정', edit_post_path(@post) %></button>
-    <button><%= link_to '뒤로가기', @back_url %></button>
   <% else %>
-    <button><%= link_to '뒤로가기', @back_url %></button>
   <% end %>
 <% else %>
     <button> <a href="/posts/friend_loundge/<%=@post.owner_id%>", method: "GET">친구 라운지로 이동 </button>  
-  <button><%= link_to '뒤로가기', @back_url %></button>
 <% end %>
                 <!--<input class="form-control" id="name" type="text" placeholder="Name" required="required" data-validation-required-message="Please enter your name.">-->
                 <p class="help-block text-danger"></p>
