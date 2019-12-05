@@ -2,6 +2,7 @@
   "name": "like_app",
   "private": true,
   "dependencies": {
+    "bootstrap4-toggle": "^3.6.1",
     "clipboard": "^2.0.4"
   }
 }

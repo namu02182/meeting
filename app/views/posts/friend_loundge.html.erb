@@ -1,10 +1,78 @@
+<!-- Navigation -->
+  <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand js-scroll-trigger" href="/posts", method: "GET">믿고하는 소개팅 | 믿팅</a>
+      <button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        메뉴
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item mx-0 mx-lg-1">
+            <form action="/find_friend/result/<%=current_user.id%>" method="GET" >
+              <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+            <span class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"> 
+              <input type="text" name="search_word" size="15" required="true" minlength="2" placeholder="이름으로 검색">
+              <button type="submit" >친구검색</button> </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 <% if friend_list(current_user.id).include?(@post.owner_id.to_i) %>
 <h1>친구라운지</h1>
 이름 : <%= @post.name %>
 간단소개 : <%= @post.selfintroduction %>
 <hr>
 
-<h2><%= @post.name %>님의 솔로 친구를 소개합니다!</h2>
+<h2></h2>
+
+
+
+<section class="page-section portfolio" id="friends">
+  
+    <div class="container">
+    <table>
+     <tbody>
+      <tr>
+        <td>  <h2><%= @post.name %>님의 솔로 친구를 소개합니다! (<%= @recommended_solos_not_my_sex.size %>명)</h2> </td>
+        <td>  </td>
+      </tr>
+     </tbody>
+    </table>
+    <br><br>
+
+ <!-- Portfolio Grid Items -->
+      <div class="row">
+
+        <!-- Portfolio Item 1 -->
+        <% if @recommended_solos_not_my_sex.exists? %>
+        <% @recommended_solos_not_my_sex.each do |p| %>
+          <div class="col-md-6 col-lg-4">
+            <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#friend<%=p.owner_id%>">
+              <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                <div class="portfolio-item-caption-content text-center text-white">
+                  <i class="fas fa-plus fa-3x"></i>
+                </div>
+              </div>
+              <p><%=p.name%></p>
+              <!--<img class="img-fluid" src="img/portfolio/cabin.png" alt="">-->
+              <% if p.profilepics? %>
+                <%= image_tag(p.profilepics.url, class:'img-fluid profilepics', alt: "") %>
+              <% else %>
+                <img class="img-fluid" src="/img/avataaars.svg" alt="">
+              <% end %>
+            </div>
+          </div>
+          <% end %>
+        <% else %>
+          <%=@post.name%>님의 솔로 친구가 없습니다!
+        <% end %>
+      </div>
+      <!-- /.row -->
+    </div>
+  </section>
+        
 <i>참고: 현재 나의 성별은 <%= Post.find_by(owner_id: current_user).sex %> 입니다</i><br/>
 <!--나랑 친구는 아닌 사람들 중에서 솔로 이성들만 보이도록 기능 구현할라하다가, 그냥 나랑 친구인 사람들도 보여도 될듯!-->
 <% @recommended_solos_not_my_sex.each do |p| %>
@@ -44,3 +112,73 @@
 접근 권한이 없습니다. 친구 신청을 하세요!
 <% end %>
 <a href="/posts", method: "GET">초기화면으로 돌아가기</a>
+
+
+  <!-- Portfolio Modals -->
+
+  <!-- Portfolio Modal 1 -->
+  <% if @recommended_solos_not_my_sex.exists?%>
+    <% @recommended_solos_not_my_sex.each do |p| %>
+      <div class="portfolio-modal modal fade" id="friend<%=p.owner_id%>" tabindex="-1" role="dialog" aria-labelledby="friend<%=p.owner_id%>Label" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+          <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">
+                <i class="fas fa-times"></i>
+              </span>
+            </button>
+            <div class="modal-body text-center">
+              <div class="container">
+                <div class="row justify-content-center">
+                  <div class="col-lg-8">
+                    <!-- Portfolio Modal - Title -->
+                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0"><%=p.name%>님</h2>
+                    <!-- Icon Divider -->
+                    <div class="divider-custom">
+                      <div class="divider-custom-line"></div>
+                      <div class="divider-custom-icon">
+                        <i class="fas fa-star"></i>
+                      </div>
+                      <div class="divider-custom-line"></div>
+                    </div>
+                    <!-- Portfolio Modal - Image -->
+                    <!--<img class="img-fluid rounded mb-5" src="img/portfolio/cabin.png" alt="">-->
+                    <% if p.profilepics? %>
+                      <%= image_tag(p.profilepics.url,  class:'img-fluid rounded mb-5 profilepics', alt: "") %>
+                    <% else %>
+                      <img class="img-fluid rounded mb-5" src="/img/avataaars.svg" alt="">
+                    <% end %>
+                    <!-- Portfolio Modal - Text -->
+                    <p class="mb-5">저는 <%=p.age%>살 <%=p.name%>이라고 합니다.</p>
+                    <p class="mb-5"><%=p.selfintroduction%></p>
+                    <button class="btn btn-danger" onclick="location.href='/posts/<%=current_user.id%>/lovers/<%=p.owner_id%>' ">
+                      <i class="fa fa-heart" aria-hidden="true"></i>
+                      </button>
+                      
+                      
+                      <% if Heart.find_by(user_id: current_user.id, lover_id: p.owner_id).nil? 
+        @loveletter = "이 사람을 소개시켜주세요!"
+        @text = "소개신청"
+       else
+        @loveletter = "#{Post.find_by(owner_id: Heart.find_by(lover_id: p.owner_id, user_id: current_user.id).host_id).name}님에게 이미 소개신청했습니다!"
+        @text = '취소'
+       end %>
+    <%= @loveletter%> <a href="<%= @post.owner_id%>/<%=p.owner_id%>", method: "GET"><%=@text%></a> 
+    <br>(이사람에게 호감을 보인 사람들 : <%= Heart.where(lover_id: p.owner_id).size %>명)<hr>
+                    <button class="btn btn-warning" onclick="location.href='/posts/<%=p.owner_id%>' ">
+                      <i class="fa fa-user" aria-hidden="true"></i>
+                      상세 프로필 보기</button>
+                    <button class="btn btn-primary" href="#" data-dismiss="modal">
+                      <i class="fas fa-times fa-fw"></i>
+                      프로필 닫기
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% else %>
+  <% end %>

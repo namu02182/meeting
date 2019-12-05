@@ -85,3 +85,5 @@ gem "omniauth-google-oauth2"
 
 gem 'activestorage'
 
+gem 'devise-i18n'
+

@@ -1,18 +1,81 @@
-<h1>내 라운지</h1>
-이름 : <%= @current_user_post.name %>
-간단소개 : <%= @current_user_post.selfintroduction %>
+<!-- Navigation -->
+  <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand js-scroll-trigger" href="/posts", method: "GET">믿고하는 소개팅 | 믿팅</a>
+      <button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        메뉴
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item mx-0 mx-lg-1">
+            <form action="/find_friend/result/<%=current_user.id%>" method="GET" >
+              <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+            <span class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"> 
+              <input type="text" name="search_word" size="15" required="true" minlength="2" placeholder="이름으로 검색">
+              <button type="submit" >친구검색</button> </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+<header class="masthead bg-primary text-white text-center">
+    <div class="container d-flex align-items-center flex-column">
+
+      <!-- Masthead Avatar Image -->
+  <font size="8em">나의 라운지</font></br></br>
+  <% if @current_user_post.profilepics? %>
+    <%= image_tag(@current_user_post.profilepics.url, class:'profilepics', alt: '로드되지 않았습니다') %>
+  <% else %>
+    <img class="masthead-avatar mb-5" src="img/avataaars.svg" alt="">
+  <% end %>
+
+      <!-- Masthead Heading -->
+      <p><font size="8em"><%= @current_user_post.name %>님</font> </br></br></br>
+      <font size="6em"><%= @current_user_post.selfintroduction %></font>
+    </div>
+  </header>
 <hr>
 
-<h2>나의 솔로 친구를 소개합니다!</h2>
-<i>참고: 현재 나의 성별은 <%= @current_user_post.sex %> 입니다</i><br/>
-<!--나랑 친구는 아닌 사람들 중에서 솔로 이성들만 보이도록 기능 구현할라하다가, 그냥 나랑 친구인 사람들도 보여도 될듯!-->
-<% @my_friends.where.not(sex: @current_user_post.sex).each do |p| %>
-    <%=p.name%>님 <a href="/posts/<%=p.owner_id%>", method: "GET">프로필보기</a><br>
-    <!--<a href="/posts/loundge", method: "GET"> 호감 보이기</a><br>-->
-<% end %>
+ <!-- 나의 솔로친구 소개 section -->
+  <section class="page-section portfolio" id="solofriends">
+    <div class="solofriends">
 
+      <!-- Portfolio Section Heading -->
+      <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">나의 솔로친구 소개</h2>
+        <!--<i>참고: 현재 나의 성별은 <--%= @current_user_post.sex %> 입니다</i><br/>-->
+        <!--나랑 친구는 아닌 사람들 중에서 솔로 이성들만 보이도록 기능 구현할라하다가, 그냥 나랑 친구인 사람들도 보여도 될듯!-->
+      <!-- Icon Divider -->
+      <div class="divider-custom">
+        <div class="divider-custom-line"></div>
+        <div class="divider-custom-icon">
+          <i class="fas fa-star"></i>
+        </div>
+        <div class="divider-custom-line"></div>
+      </div>
 
-<h2>여기서부터는 가짜 친구들</h2>
+      <!-- Portfolio Grid Items -->
+      <div class="row">
+        <div class="col-md-6 col-lg-4">
+          <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal1">
+            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+              <div class="portfolio-item-caption-content text-center text-white">
+                <i class="fas fa-plus fa-3x"></i>
+              </div>
+            </div>
+            <% @my_friends.where.not(sex: @current_user_post.sex).each do |p| %>
+            <%=p.name%>님</br>
+            <a href="/posts/<%=p.owner_id%>", method: "GET">프로필보기</a><br>
+            <!--<a href="/posts/loundge", method: "GET"> 호감 보이기</a><br>-->
+            <% end %>
+          </div>
+        </div>
+    </div>
+      <!-- /.row -->
+
+    </div>
+  </section>
 
 <% if @current_user_made_up_friend.exists? %>
     <% @current_user_made_up_friend.each do |p| %>
@@ -20,22 +83,21 @@
         <!--<a href="/posts/loundge", method: "GET"> 호감 보이기</a><br>-->
     <% end %>
 <% else %>
-  자 이제, 친구를 등록해보세요!<br/>
+  <font size="5em">직접 친구를 등록해보세요!</font>
 <% end %>
-<hr/>
-  <a href="/posts/<%=current_user.id%>/make_friends/new", method: "POST">(+)친구 추가하기</a><br/><br/>
-  또는.. 간단히 등록하기<br/>
+  <button type="button" class="btn btn-primary btn-lg" onclick="location.href ='/posts/<%=current_user.id%>/make_friends/new'", method: "POST">(+)친구 추가하기</button><br/><br/>
+
+<font size="5em">솔로친구 간편등록</font>&nbsp&nbsp
   <form action="/posts/<%=current_user.id%>/make_friends" method="POST" >
     <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
     <div class="profile_input_easy">
     이름 : <input type="text" name="name" required="true" cols = "10" > 
-    | 성별 :  <input type="radio" name="sex" value="남자"> 남자
+    &nbsp&nbsp&nbsp&nbsp 성별 :  <input type="radio" name="sex" value="남자"> 남자
             <input type="radio" name="sex" value="여자"> 여자
-    | 간단소개: <input type=textarea name = "selfintroduction" cols = "10000" rows = "1" placeholder="소개하고픈 제 친구입니다" value="소개하고픈 제 친구입니다"></input>
+    &nbsp&nbsp&nbsp&nbsp 간단소개: <input type=textarea name = "selfintroduction" cols = "10000" rows = "1" placeholder="소개하고픈 제 친구입니다" value="소개하고픈 제 친구입니다"></input>
     <button type="submit" >간편 등록하기</button> 
     </div>
 </form>
 <hr>
 
-<a href="/posts", method: "GET">초기화면으로 돌아가기</a>
 

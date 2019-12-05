@@ -7,19 +7,23 @@
     <%= f.input :email,
                 required: true,
                 autofocus: true,
-                input_html: { autocomplete: "email" }%>
+                input_html: { autocomplete: "email" },
+                placeholder: '이메일',
+                html: {autocomplete: 'off'}%>
     <%= f.input :password,
                 required: true,
                 hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
+                placeholder: '비밀번호 입력',
                 input_html: { autocomplete: "new-password" } %>
     <%= f.input :password_confirmation,
                 required: true,
+                placeholder: '비밀번호 확인',
                 input_html: { autocomplete: "new-password" } %>
                 
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit, "Sign up" %>
+    <%= f.button :submit, "회원가입" %>
   </div>
 <% end %>
 
