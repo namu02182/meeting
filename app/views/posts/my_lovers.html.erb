@@ -1,0 +1,146 @@
+<% if current_user.id == params[:user_id].to_i %>
+
+
+<!-- Navigation -->
+  <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand js-scroll-trigger" href="/posts", method: "GET">믿고하는 소개팅 | 믿팅</a>
+      <button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        메뉴
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item mx-0 mx-lg-1">
+            <form action="/find_friend/result/<%=current_user.id%>" method="GET" >
+              <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+            <span class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"> 
+              <input type="text" name="search_word" size="15" required="true" minlength="2" placeholder="이름으로 검색">
+              <button type="submit" >검색</button> </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+  <!-- Contact Section -->
+    <section class="page-section" id="contact" style="padding-top: 150px; padding-bottom: 30px;">
+      <div class="container">
+  
+        <!-- Contact Section Heading -->
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">나에게 온 주선요청(<%= @friend_love_request.size %>명)</h2>
+  
+        <!-- Icon Divider -->
+        <div class="divider-custom">
+          <div class="divider-custom-line"></div>
+          <div class="divider-custom-icon">
+            <i class="fas fa-star"></i>
+          </div>
+          <div class="divider-custom-line"></div>
+        </div>
+  
+  <!-- Contact Section Form -->
+      <div class="row">
+          <div class="col-lg-8 mx-auto">
+          <!-- To configure the contact form email address, go to mail/contact_me.php and update the email address in the PHP file on line 19. -->
+          <form name="sentMessage" id="contactForm" novalidate="novalidate">
+              <div class="control-group">
+              <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                <% if @friend_love_request.exists? %>
+                 <% @friend_love_request.each do |p| %>
+                    <div class="card mb-3" style="max-width: 450px; margin-left: auto; margin-right: auto; display: block;">
+                      <div class="row no-gutters">
+                        <div class="col-md-4" style="display: block; padding: 5px;margin-top: auto; margin-bottom: auto; margin-left: auto; margin-right: auto;">
+                          <% if Post.find_by(owner_id: p.lover_id).profilepics? %>
+                            <%= image_tag(Post.find_by(owner_id: p.lover_id).profilepics.url, class:'img-fluid card-img profilepics1', alt: "") %>
+                          <% else %>
+                            <img class="img-fluid card-img profilepics1" src="/img/avataaars.svg" alt="">
+                          <% end %>
+                        </div>
+                        <div class="col-md-8">
+                          <div class="card-body">
+                              
+                            <h5 class="card-title"><%= Post.find_by(owner_id: p.lover_id).name%>(<%=Post.find_by(owner_id: p.lover_id).age%>)</h5>
+                            <p class="card-text">요청자 : <%= Post.find_by(owner_id: p.user_id).name%> </p>
+                            <p class="card-text"><small class="text-muted">신청 시간 : <%= p.updated_at %> </small></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  <% end %>
+                <% else %>
+                  나에게 들어온 친구 신청이 없네요!
+                <% end %>
+
+              </div>
+            </div>
+            <br>
+        </div>
+      </div>
+    </div>
+  </section>
+ <!-- Contact Section -->
+  <section class="page-section" id="contact" style="padding-top: 0px;">
+    <div class="container">
+
+      <!-- Contact Section Heading -->
+      <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">내가 신청한 소개팅(<%= @my_love_request.size %>명)</h2>
+
+      <!-- Icon Divider -->
+      <div class="divider-custom">
+        <div class="divider-custom-line"></div>
+        <div class="divider-custom-icon">
+          <i class="fas fa-star"></i>
+        </div>
+        <div class="divider-custom-line"></div>
+      </div>
+  
+        <!-- Contact Section Form -->
+      <div class="row">
+        <div class="col-lg-8 mx-auto" style="margin-left: 100px; border-left-width: 100px; padding-left: 140px;">
+          <!-- To configure the contact form email address, go to mail/contact_me.php and update the email address in the PHP file on line 19. -->
+          <form name="sentMessage" id="contactForm" novalidate="novalidate">
+            <div class="control-group">
+              <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                <% if @my_love_request.exists? %>
+                 <% @my_love_request.each do |p| %>
+                    <div class="card mb-3" style="max-width: 450px;">
+                      <div class="row no-gutters">
+                        <div class="col-md-4" style="display: block; padding: 5px;margin-top: auto; margin-bottom: auto; margin-left: auto; margin-right: auto;">
+                            <% if Post.find_by(owner_id: p.lover_id).present? && Post.find_by(owner_id: p.lover_id).profilepics? %>
+                              <%= image_tag(Post.find_by(owner_id: p.lover_id).profilepics.url, class:'img-fluid card-img profilepics1', alt: "") %>
+                            <% else %>
+                              <img class="img-fluid card-img profilepics1" src="/img/avataaars.svg" alt="">
+                            <% end %>
+                        </div>
+                        <div class="col-md-8">
+                          <div class="card-body">
+                            <h5 class="card-title"><%= Post&.find_by(owner_id: p.lover_id)&.name%>(<%=Post&.find_by(owner_id: p.lover_id)&.age%>)</h5>
+                            <p class="card-text">주선자 : <%= Post.find_by(owner_id: p.host_id).name%> </p>
+                            <p class="card-text"><small class="text-muted">신청 시간 : <%= p.updated_at %> </small></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  <% end %>
+                <% else %>
+                  소개 신청 해보세요! -> <a href="/posts/friends_list">친구목록 보기</a>
+                <% end %>
+
+              </div>
+            </div>
+            <br>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+
+
+
+  
+  <% else %>
+  권한이 없습니다!
+  <% end %>

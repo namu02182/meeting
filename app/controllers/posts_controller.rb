@@ -18,6 +18,8 @@ class PostsController < ApplicationController
     # Friend.where(user_id: current_user.owner_ids, owner_id: current_user.id).pluck(:user_id))
     @friend_requests = Post.where(owner_id: Friend.where(owner_id: current_user.id).pluck(:user_id)).where.not(id: @my_friends.pluck(:id))
     @love_request = Heart.where(host_id: current_user.id)
+    @recommended_solos = Post.where(owner_id: friend_list(@my_friends.pluck(:owner_id))).where.not(sex: @current_user_post.sex).where(status: "솔로")
+    @recommended_solos_not_my_friend = @recommended_solos.where.not(owner_id: @my_friends.pluck(:owner_id))
   end
   
   
@@ -38,9 +40,21 @@ class PostsController < ApplicationController
     @my_friends = Post.where(owner_id: friend_list(current_user.id))
     @current_user_made_up_friend = MakeFriend.where(friend_id: current_user.id) 
   end
+  
+  def my_friend_list 
+        @my_friends = Post.where(owner_id: friend_list(current_user.id))
+            @my_requests = Post.where(owner_id: Friend.where(user_id: current_user.id).pluck(:owner_id))
+            @my_requests_not_my_friends = @my_requests.where.not(id: @my_friends.pluck(:id))
+                @friend_requests = Post.where(owner_id: Friend.where(owner_id: current_user.id).pluck(:user_id)).where.not(id: @my_friends.pluck(:id))
+  end
 
   def lovers
     @love_request = Heart.where(lover_id: params[:lover_id])
+  end
+
+  def my_lovers
+    @my_love_request = Heart.where(user_id: current_user.id)
+    @friend_love_request = Heart.where(host_id: current_user.id)
   end
 
 

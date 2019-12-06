@@ -16,9 +16,12 @@ Rails.application.routes.draw do
   post "posts/:id/create_profilepics" => 'posts#create_profilepics', as: :save_profilepics
   get "posts/:id/edit_profilepics" => 'posts#edit_profilepics', as: :edit_profilepics
   post "posts/:id/update_profilepics" => 'posts#update_profilepics', as: :update_profilepics
-  get 'find_friend/result/:id' => 'find_friend#result'
+  get 'find_friend/result' => 'find_friend#result'
+  get 'posts/:id/my_friend_list'=> 'posts#my_friend_list'
   get 'posts/friend_loundge/:host_id/:lover_id' => 'hearts#toggle_heart', as: :hearts
+  get 'posts/:lover_id/toggle_heart2' => 'hearts#toggle_heart2'
   get 'posts/:host_id/lovers/:lover_id' => 'posts#lovers'
+  get 'posts/:user_id/my_lovers' => 'posts#my_lovers'
   get 'friends/become_friends/:owner_id' => 'friends#become_friends', as: :friends
   # get 'likes/start_love/:host_id/:id' => 'likes#start_love', as: :likes
   resources :posts, :except => [:create]

@@ -1,3 +1,4 @@
+
 <!-- Navigation -->
   <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top profileshownav" id="mainNav">
     <div class="container">
@@ -25,7 +26,7 @@
       <h1 class="masthead-heading text-uppercase mb-0"><!--내 프로필 보여주는 부분 시작-->
       <% if @post.owner_id.to_i == current_user.id %>
         <% if @post.profilepics? %>
-          <br><a href="/posts/<%=@post.owner_id%>/edit_profilepics", method: "GET" , class="notice profilepics">사진 바꾸기</a>
+         <button class="btn btn-secondary btn-sm" onclick="location.href='/posts/<%=@post.owner_id%>/edit_profilepics'", method: "GET" , class="notice profilepics"><i class="fa fa-camera" aria-hidden="true"></i> 사진 바꾸기</button>
         <% else %>
           <a href="/posts/<%=@post.owner_id%>/edit_profilepics", method: "GET", class="notice profilepics">프로필 사진을 등록하세요!</a>
         <% end %>
@@ -47,6 +48,7 @@
     </div>
   </header>
 </br></br>
+<div>
 <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">프로필 정보</h2>
 
       <!-- Icon Divider -->
@@ -64,7 +66,7 @@
           <!-- To configure the contact form email address, go to mail/contact_me.php and update the email address in the PHP file on line 19. -->
           <form name="sentMessage" id="contactForm" novalidate="novalidate">
             <div class="control-group">
-              <div class="form-group floating-label-form-group controls mb-0 pb-2">
+              <div class="form-group floating-label-form-group controls mb-0 pb-2" style="padding-left: 135px;">
                 <strong>이름:</strong>
   <%= @post.name %><br/><br/>
 
@@ -131,7 +133,8 @@ window.onscroll = function() {
   prevScrollpos = currentScrollPos;
 }
 </script>
-
+</div>
+</body>
 
 
 

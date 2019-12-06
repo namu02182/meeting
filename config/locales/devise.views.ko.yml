@@ -9,13 +9,13 @@ ko:
         current_password: 현재 비밀번호
         current_sign_in_at: 현재 접속 시간
         current_sign_in_ip: 현재 접속 IP주소
-        email: 이메일   
+        email: ""   
         encrypted_password: 암호화된 비밀번호
         failed_attempts: 접속시도 실패
         last_sign_in_at: 마지막 접속 시간
         last_sign_in_ip: 마지막 접속 IP주소
         locked_at: 접근 잠김 시간
-        password: 비밀번호   
+        password: ""   
         password_confirmation: 비밀번호 확인
         remember_created_at: 로그인 기록된 시간
         remember_me: 로그인 정보 기억하기

@@ -1,7 +1,8 @@
-
+<div class="index">
 <% if @profile_check.nil? %>
   아직 프로필이 등록되지 않았어요! => <%= link_to "프로필 등록하러 가기", new_post_path %>
 <% else %>
+<!--내 프로필 보여주는 부분 시작-->
 <!-- Navigation -->
   <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
     <div class="container">
@@ -13,42 +14,33 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item mx-0 mx-lg-1">
+            <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#recommended_solos">이 분 어때요?</a>
+          </li>
+          <!--<li class="nav-item mx-0 mx-lg-1">-->
+          <!-- <span class="nav-link py-3 px-0 px-lg-3 rounded"> | </span>-->
+          <!--</li>-->
+          <li class="nav-item mx-0 mx-lg-1">
             <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#friends">친구목록</a>
           </li>
-          <!--<li class="nav-item mx-0 mx-lg-1">-->
-          <!-- <span class="nav-link py-3 px-0 px-lg-3 rounded"> | </span>-->
-          <!--</li>-->
           <li class="nav-item mx-0 mx-lg-1">
-            <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#requests">친구신청</a>
-          </li>
-          <!--<li class="nav-item mx-0 mx-lg-1">-->
-          <!-- <span class="nav-link py-3 px-0 px-lg-3 rounded"> | </span>-->
-          <!--</li>-->
-          <li class="nav-item mx-0 mx-lg-1">
-            <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#hearts">소개신청</a>
-          </li>
-          <!--<li class="nav-item mx-0 mx-lg-1">-->
-          <!-- <span class="nav-link py-3 px-0 px-lg-3 rounded"> | </span>-->
-          <!--</li>-->
-          <li class="nav-item mx-0 mx-lg-1">
-            <form action="/find_friend/result/<%=current_user.id%>" method="GET" >
+            <form action="/find_friend/result" method="GET" >
               <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
             <span class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"> 
-              <input type="text" name="search_word" size="15" required="true" minlength="2" placeholder="이름으로 검색">
-              <button type="submit" >친구검색</button> </span>
+              <input type="text" name="search_word" size="15" required="true" minlength="2" placeholder="친구 이름으로 검색">
+              <button type="submit" >Search</button> </span>
+            </form>
           </li>
         </ul>
       </div>
     </div>
   </nav>
 
-      <!--내 프로필 보여주는 부분 시작-->
   <!-- Masthead -->
   <header class="masthead bg-primary text-white text-center">
     <div class="container d-flex align-items-center flex-column">
 
       <!-- Masthead Avatar Image -->
-  <font size="8em">반갑습니다!</font></br></br>
+  <!--<font size="8em">반갑습니다!</font></br></br>-->
   <% if @current_user_post.profilepics? %>
     <%= image_tag(@current_user_post.profilepics.url, class:'profilepics', alt: '로드되지 않았습니다') %>
   <% else %>
@@ -56,13 +48,19 @@
   <% end %>
 
       <!-- Masthead Heading -->
-      <p><font size="8em"><%= @current_user_post.name %>님</font> </br></br></br>
+      <font size="8em"><%= @current_user_post.name %>님(<%= @current_user_post.age %>)</font></br>
+      <!--<p><font size="6em" color="white"><--%= @current_user_post.selfintroduction %></font></br></br></br>-->
+      <div>
+      <button class="btn btn-danger" onclick="location.href='/posts/<%=current_user.id%>/my_lovers' ">
+        <i class="fa fa-heart" aria-hidden="true"></i>
+        소개팅 관리</button>
       <button type="button" class="btn btn-dark" onclick = "location.href = ' /posts/<%=current_user.id%>'">
         <i class="fa fa-id-card" aria-hidden="true"></i>
-        내 프로필 보기</button>
+        프로필 관리</button>
       <button type="button" class="btn btn-warning" onclick = "location.href = ' /users/sign_out'">
        <i class="fa fa-window-close" aria-hidden="true"></i>
-        로그아웃</button>
+        로그아웃</button></div>
+     
       <!-- Icon Divider -->
       <!--<div class="divider-custom divider-light">-->
       <!--  <div class="divider-custom-line"></div>-->
@@ -78,26 +76,78 @@
     </div>
   </header>
   
+  <!--추천 솔로-->
+<section class="page-section portfolio" id="recommended_solos">
   
+    <div class="container">  
+      <table>
+       <tbody>
+        <tr>
+          <td>  <h2 id="existing_friends">이분 어때요?</h2> </td>
+        </tr>
+       </tbody>
+      </table></br></br>
+
+
+      <!-- Portfolio Grid Items -->
+      <div class="row">
+
+        <!-- Portfolio Item 1 -->
+        <% @recommended_solos_not_my_friend.sample(3).each do |p| %>  
+          <div class="col-md-6 col-lg-4"  style="text-align: center;">
+            <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#recommended_solos<%=p.owner_id%>">
+              <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                <div class="portfolio-item-caption-content text-center text-white">
+                  <i class="fas fa-plus fa-3x"></i>
+                </div>
+              </div>
+              <p><%=p.name%>(<%=p.age%>살)</p>
+              <!--<img class="img-fluid" src="img/portfolio/cabin.png" alt="">-->
+              <% if p.profilepics? %>
+                <%= image_tag(p.profilepics.url, class:'img-fluid profilepics', alt: "") %>
+              <% else %>
+                <img class="img-fluid profilepics" src="img/avataaars.svg" alt="">
+              <% end %>
+            </div>
+          </div>
+                <% end %>
+
+
+      </div>
+      <!-- /.row -->
+
+    </div>
+  </section>  
+  <!--추천 솔로 끝-->
+  
+  <!--친구목록-->
 <section class="page-section portfolio" id="friends">
-  
+
     <div class="container">
     <table>
      <tbody>
       <tr>
         <td>  <h2 id="existing_friends">친구목록 (<%= @my_friends.size %>명)</h2> </td>
-        <td>    <div class="custom-control custom-switch">
-  <input type="checkbox" class="custom-control-input" id="customSwitch1" checked>
-  <label class="custom-control-label" for="customSwitch1">솔로친구만 보기</label>
-</div></td>
+        <td>&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-warning" onclick = "location.href = ' /posts/<%=current_user.id%>/my_friend_list'">
+          <i class="fa fa-users" aria-hidden="true"></i> 친구신청 현황</button>
+        </td>
+        <td>
+          <div class="custom-control custom-switch" >
+          <input type="checkbox" class="custom-control-input" id="customSwitch1" checked>
+          <!--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
+          <!--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
+          <!--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
+          <!--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
+          <label class="custom-control-label" for="customSwitch1">솔로친구만 보기</label>
+          </div>
+        </td>
       </tr>
-  </tbody>
-  
+     </tbody>
     </table>
     <br><br>
 
       <!-- Portfolio Grid Items -->
-      <div class="row">
+      <div class="row"  style="text-align: center;">
 
         <!-- Portfolio Item 1 -->
         <% if @my_friends.exists?%>
@@ -109,12 +159,12 @@
                   <i class="fas fa-plus fa-3x"></i>
                 </div>
               </div>
-              <p><%=p.name%></p>
+              <p><%=p.name%>(<%=p.age%>살)</p>
               <!--<img class="img-fluid" src="img/portfolio/cabin.png" alt="">-->
               <% if p.profilepics? %>
                 <%= image_tag(p.profilepics.url, class:'img-fluid profilepics', alt: "") %>
               <% else %>
-                <img class="img-fluid" src="img/avataaars.svg" alt="">
+                <img class="img-fluid profilepics" src="img/avataaars.svg" alt="">
               <% end %>
             </div>
           </div>
@@ -127,350 +177,13 @@
       <!-- /.row -->
 
     </div>
-  </section>
-  
-<section class="page-section bg-primary text-white mb-0 requests" id="requests">
-  
-    <div class="container my_requests">
-
-      <!-- Portfolio Section Heading -->
-    <h2 id="followers">내가 친구 신청한 사람들 (<%= @my_requests_not_my_friends.size %>명) </h2>
-            <% if @my_requests_not_my_friends.exists? %>
-          <% @my_requests_not_my_friends.each do |p| %>
-            <a href="/posts/<%=p.owner_id%>", method: "GET"><%=p.name%></a>님에게 친구신청 했어요!
-            <%= link_to "친구신청 취소", friends_path(p.owner_id) %><br>
-          <% end %>
-        <% else %>
-          자 이제, 친구신청 해보세요!
-        <% end %>
-
-      <!-- Icon Divider -->
-      <div class="divider-custom">
-        <div class="divider-custom-line"></div>
-        <div class="divider-custom-icon">
-          <i class="fas fa-star"></i>
-        </div>
-        <div class="divider-custom-line"></div>
-      </div>
-
-      <!-- Portfolio Grid Items -->
-      <div class="row">
-
-        <!-- Portfolio Item 1 -->
-        <div class="col-md-6 col-lg-4">
-          <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal1">
-            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-              <div class="portfolio-item-caption-content text-center text-white">
-                <i class="fas fa-plus fa-3x"></i>
-              </div>
-            </div>
-            <img class="img-fluid" src="img/portfolio/cabin.png" alt="">
-          </div>
-        </div>
-
-        <!-- Portfolio Item 2 -->
-        <div class="col-md-6 col-lg-4">
-          <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal2">
-            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-              <div class="portfolio-item-caption-content text-center text-white">
-                <i class="fas fa-plus fa-3x"></i>
-              </div>
-            </div>
-            <img class="img-fluid" src="img/portfolio/cake.png" alt="">
-          </div>
-        </div>
-
-        <!-- Portfolio Item 3 -->
-        <div class="col-md-6 col-lg-4">
-          <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal3">
-            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-              <div class="portfolio-item-caption-content text-center text-white">
-                <i class="fas fa-plus fa-3x"></i>
-              </div>
-            </div>
-            <img class="img-fluid" src="img/portfolio/circus.png" alt="">
-          </div>
-        </div>
-
-        <!-- Portfolio Item 4 -->
-        <div class="col-md-6 col-lg-4">
-          <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal4">
-            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-              <div class="portfolio-item-caption-content text-center text-white">
-                <i class="fas fa-plus fa-3x"></i>
-              </div>
-            </div>
-            <img class="img-fluid" src="img/portfolio/game.png" alt="">
-          </div>
-        </div>
-
-        <!-- Portfolio Item 5 -->
-        <div class="col-md-6 col-lg-4">
-          <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal5">
-            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-              <div class="portfolio-item-caption-content text-center text-white">
-                <i class="fas fa-plus fa-3x"></i>
-              </div>
-            </div>
-            <img class="img-fluid" src="img/portfolio/safe.png" alt="">
-          </div>
-        </div>
-
-        <!-- Portfolio Item 6 -->
-        <div class="col-md-6 col-lg-4">
-          <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal6">
-            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-              <div class="portfolio-item-caption-content text-center text-white">
-                <i class="fas fa-plus fa-3x"></i>
-              </div>
-            </div>
-            <img class="img-fluid" src="img/portfolio/submarine.png" alt="">
-          </div>
-        </div>
-
-      </div>
-      <!-- /.row -->
-
-    </div>
-  
-    <div class="container friend_requests">
-
-<!-- Portfolio Section Heading -->
-    <h2 id="followers">나에게 친구 신청한 사람들 (<%= @friend_requests.size %>명)</h2>
-        <% if @friend_requests.exists? %>
-          <% @friend_requests.each do |p| %>
-              <a href="/posts/<%=p.owner_id%>", method: "GET"><%=p.name%></a>님이 친구신청 했어요! 
-              <%= link_to "친구수락", friends_path(p.owner_id) %><br>
-          <% end %>
-        <% else %>
-          들어온 친구신청이 없어요!
-        <% end %>
-      <!-- Icon Divider -->
-      <div class="divider-custom">
-        <div class="divider-custom-line"></div>
-        <div class="divider-custom-icon">
-          <i class="fas fa-star"></i>
-        </div>
-        <div class="divider-custom-line"></div>
-      </div>
-
-      <!-- Portfolio Grid Items -->
-      <div class="row">
-
-        <!-- Portfolio Item 1 -->
-        <div class="col-md-6 col-lg-4">
-          <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal1">
-            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-              <div class="portfolio-item-caption-content text-center text-white">
-                <i class="fas fa-plus fa-3x"></i>
-              </div>
-            </div>
-            <img class="img-fluid" src="img/portfolio/cabin.png" alt="">
-          </div>
-        </div>
-
-        <!-- Portfolio Item 2 -->
-        <div class="col-md-6 col-lg-4">
-          <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal2">
-            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-              <div class="portfolio-item-caption-content text-center text-white">
-                <i class="fas fa-plus fa-3x"></i>
-              </div>
-            </div>
-            <img class="img-fluid" src="img/portfolio/cake.png" alt="">
-          </div>
-        </div>
-
-        <!-- Portfolio Item 3 -->
-        <div class="col-md-6 col-lg-4">
-          <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal3">
-            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-              <div class="portfolio-item-caption-content text-center text-white">
-                <i class="fas fa-plus fa-3x"></i>
-              </div>
-            </div>
-            <img class="img-fluid" src="img/portfolio/circus.png" alt="">
-          </div>
-        </div>
-
-        <!-- Portfolio Item 4 -->
-        <div class="col-md-6 col-lg-4">
-          <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal4">
-            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-              <div class="portfolio-item-caption-content text-center text-white">
-                <i class="fas fa-plus fa-3x"></i>
-              </div>
-            </div>
-            <img class="img-fluid" src="img/portfolio/game.png" alt="">
-          </div>
-        </div>
-
-        <!-- Portfolio Item 5 -->
-        <div class="col-md-6 col-lg-4">
-          <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal5">
-            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-              <div class="portfolio-item-caption-content text-center text-white">
-                <i class="fas fa-plus fa-3x"></i>
-              </div>
-            </div>
-            <img class="img-fluid" src="img/portfolio/safe.png" alt="">
-          </div>
-        </div>
-
-        <!-- Portfolio Item 6 -->
-        <div class="col-md-6 col-lg-4">
-          <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal6">
-            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-              <div class="portfolio-item-caption-content text-center text-white">
-                <i class="fas fa-plus fa-3x"></i>
-              </div>
-            </div>
-            <img class="img-fluid" src="img/portfolio/submarine.png" alt="">
-          </div>
-        </div>
-
-      </div>
-      <!-- /.row -->
-
-    </div>
-  </section>
-
-
-
-      
-  <section class="page-section portfolio" id="portfolio">
-  
-    <div class="container">  
-
-    <h2 id="recommended_friends">추천 친구</h2>
-    <!--일단 지금은 전체 등록된 사용자(랜덤 10명)를 보여주는 칸:친구신청 테스트-->
-        <% @posts_not_mine.where.not(id: @my_friends.pluck(:id)).sample(10).each do |p| %>  
-          <p><%= link_to "#{p.name}", p %>
-            <% if Friend.find_by(user_id: current_user.id, owner_id: p.owner_id).nil? %>
-            <!--내가 이 포스트의 주인에게 친구신청을 한 적이 없는데,-->
-                <% if Friend.find_by(user_id: p.owner_id, owner_id: current_user.id).nil? %>
-                <!-- 이 포스트의 주인도, 나에게 친구신청을 한 적이 없다면?-->
-                  <%= link_to "친구신청", friends_path(p.owner_id) %>
-                <% else %>
-                <!--이 포스트의 주인은 나한테 친구신청을 한 상태-->
-                  <%= link_to "친구수락", friends_path(p.owner_id) %>
-                <%end%>
-            <% else %>
-            <!--내가 이 포스트의 주인에게 친구신청을 이미 했는데,-->
-                <% if Friend.find_by(user_id: p.owner_id, owner_id: current_user.id).nil? %>
-                <!-- 이 포스트의 주인은, 나에게 친구신청을 한 적이 없다면?-->
-                  <%= link_to "친구신청 취소", friends_path(p.owner_id) %>
-                <% else %>
-                <!--이 포스트의 주인도 이미 나한테 친구신청을 한 상태-->
-                  <%= link_to "친구끊기", friends_path(p.owner_id) %> 
-                <% end %>
-            <% end %>
-      <% end %>
-<!--내 프로필 보여주는 부분 끝-->
-
-      <!-- Portfolio Grid Items -->
-      <div class="row">
-
-        <!-- Portfolio Item 1 -->
-        <div class="col-md-6 col-lg-4">
-          <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal1">
-            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-              <div class="portfolio-item-caption-content text-center text-white">
-                <i class="fas fa-plus fa-3x"></i>
-              </div>
-            </div>
-            <img class="img-fluid" src="img/portfolio/cabin.png" alt="">
-          </div>
-        </div>
-
-        <!-- Portfolio Item 2 -->
-        <div class="col-md-6 col-lg-4">
-          <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal2">
-            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-              <div class="portfolio-item-caption-content text-center text-white">
-                <i class="fas fa-plus fa-3x"></i>
-              </div>
-            </div>
-            <img class="img-fluid" src="img/portfolio/cake.png" alt="">
-          </div>
-        </div>
-
-        <!-- Portfolio Item 3 -->
-        <div class="col-md-6 col-lg-4">
-          <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal3">
-            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-              <div class="portfolio-item-caption-content text-center text-white">
-                <i class="fas fa-plus fa-3x"></i>
-              </div>
-            </div>
-            <img class="img-fluid" src="img/portfolio/circus.png" alt="">
-          </div>
-        </div>
-
-        <!-- Portfolio Item 4 -->
-        <div class="col-md-6 col-lg-4">
-          <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal4">
-            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-              <div class="portfolio-item-caption-content text-center text-white">
-                <i class="fas fa-plus fa-3x"></i>
-              </div>
-            </div>
-            <img class="img-fluid" src="img/portfolio/game.png" alt="">
-          </div>
-        </div>
-
-        <!-- Portfolio Item 5 -->
-        <div class="col-md-6 col-lg-4">
-          <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal5">
-            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-              <div class="portfolio-item-caption-content text-center text-white">
-                <i class="fas fa-plus fa-3x"></i>
-              </div>
-            </div>
-            <img class="img-fluid" src="img/portfolio/safe.png" alt="">
-          </div>
-        </div>
-
-        <!-- Portfolio Item 6 -->
-        <div class="col-md-6 col-lg-4">
-          <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal6">
-            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-              <div class="portfolio-item-caption-content text-center text-white">
-                <i class="fas fa-plus fa-3x"></i>
-              </div>
-            </div>
-            <img class="img-fluid" src="img/portfolio/submarine.png" alt="">
-          </div>
-        </div>
-
-      </div>
-      <!-- /.row -->
-
-    </div>
-  </section>  
+</section>
+  <!--친구목록끝-->
         
         
       <hr>
-      <table>
-          <thead>
-            <tr>
-              <th>전체 등록된 프로필</th>
-              <th colspan="3"></th>
-            </tr>
-          </thead>
-        
-          <tbody>
-            <% @posts.each do |post| %>
-              <tr>
-                <td><%= post.name %></td>
-                <td><%= link_to 'Show', post_path(post.owner_id) %></td>
-                <td><%= link_to 'Edit', edit_post_path(post.owner_id) %></td>
-                <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-      <% end %>
+     
+
 
   
   <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes) -->
@@ -635,13 +348,67 @@
   <!--  </a>-->
   <!--</div>-->
 
-
-  <!-- Portfolio Modals -->
-
-  <!-- Portfolio Modal 1 -->
-  <% if @my_friends.exists?%>
-    <% @my_friends.each do |p| %>
-      <div class="portfolio-modal modal fade" id="friend<%=p.owner_id%>" tabindex="-1" role="dialog" aria-labelledby="friend<%=p.owner_id%>Label" aria-hidden="true">
+  <!--친구데이터-->
+    <% if @my_friends.exists?%>
+      <% @my_friends.each do |p| %>
+        <div class="portfolio-modal modal fade" id="friend<%=p.owner_id%>" tabindex="-1" role="dialog" aria-labelledby="friend<%=p.owner_id%>Label" aria-hidden="true">
+          <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">
+                  <i class="fas fa-times"></i>
+                </span>
+              </button>
+              <div class="modal-body text-center">
+                <div class="container">
+                  <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                      <!-- Portfolio Modal - Title -->
+                      <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0"><%=p.name%>님</h2>
+                      <!-- Icon Divider -->
+                      <div class="divider-custom">
+                        <div class="divider-custom-line"></div>
+                        <div class="divider-custom-icon">
+                          <i class="fas fa-star"></i>
+                        </div>
+                        <div class="divider-custom-line"></div>
+                      </div>
+                      <!-- Portfolio Modal - Image -->
+                      <!--<img class="img-fluid rounded mb-5" src="img/portfolio/cabin.png" alt="">-->
+                      <% if p.profilepics? %>
+                        <%= image_tag(p.profilepics.url,  class:'img-fluid rounded mb-5 profilepics', alt: "") %>
+                      <% else %>
+                        <img class="img-fluid rounded mb-5 profilepics" src="img/avataaars.svg" alt="">
+                      <% end %>
+                      <!-- Portfolio Modal - Text -->
+                      <p class="mb-5">저는 <%=p.age%>살 <%=p.name%>이라고 합니다.</p>
+                      <p class="mb-5"><%=p.selfintroduction%></p>
+                      <button class="btn btn-danger" onclick="location.href='/posts/<%=current_user.id%>/lovers/<%=p.owner_id%>' ">
+                        <i class="fa fa-heart" aria-hidden="true"></i>
+                        소개신청목록(<%= @love_request.where(lover_id: p.owner_id).length %>명)</button>
+                      <button class="btn btn-warning" onclick="location.href='/posts/friend_loundge/<%=p.owner_id%>' ">
+                      <i class="fa fa-user" aria-hidden="true"></i>
+                      친구 라운지로 이동</button>
+                      <button class="btn btn-primary" href="#" data-dismiss="modal">
+                        <i class="fas fa-times fa-fw"></i>
+                        프로필 닫기
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+    <% end %>
+    <!--친구데이터 끝-->
+    
+<!--추천솔로데이터-->
+  <% if @recommended_solos_not_my_friend.exists?%>
+    <% @recommended_solos_not_my_friend.each do |p| %>  
+      <div class="portfolio-modal modal fade" id="recommended_solos<%=p.owner_id%>" tabindex="-1" role="dialog" aria-labelledby="recommended_solos<%=p.owner_id%>Label" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
           <div class="modal-content">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -668,17 +435,48 @@
                     <% if p.profilepics? %>
                       <%= image_tag(p.profilepics.url,  class:'img-fluid rounded mb-5 profilepics', alt: "") %>
                     <% else %>
-                      <img class="img-fluid rounded mb-5" src="img/avataaars.svg" alt="">
+                      <img class="img-fluid rounded mb-5 profilepics" src="img/avataaars.svg" alt="">
                     <% end %>
                     <!-- Portfolio Modal - Text -->
                     <p class="mb-5">저는 <%=p.age%>살 <%=p.name%>이라고 합니다.</p>
                     <p class="mb-5"><%=p.selfintroduction%></p>
+                    <p class="mb-5"> 
+                        <form action='posts/<%=p.owner_id%>/toggle_heart2'>
+                          <div class="btn-group">
+                            <select name="host_id" class="btn btn-danger dropdown-toggle" required="true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <div class="dropdown-menu">
+                              <option disabled selected>주선자 선택</option>
+                            <% @my_friends.where(owner_id: friend_list(p.owner_id)).each do |f|%> 
+                              <option class="dropdown-item" value="<%= f.owner_id %>">
+                                <%= f.name %>
+                              </option>
+
+                            <% end %>
+                              </div>
+                            </select>
+                          </div>
+                          </br>
+                          <% if Heart.find_by(user_id: current_user.id, lover_id: p.owner_id).nil? 
+                            @loveletter = ""
+                            @text = "소개신청"
+                            @msg = "소개 신청 완료했습니다!"
+                             else
+                            @loveletter = "#{Post.find_by(owner_id: Heart.find_by(lover_id: p.owner_id, user_id: current_user.id).host_id).name}님에게 이미 소개신청했습니다!"
+                            @text = '취소'
+                            @msg = "소개 신청 취소했습니다!"
+                           end %>
+
+                      <%= @loveletter%><%=@text%><br>
+                         
+                          <button type="submit" class="btn btn-danger" >
+                            <i class="fa fa-heart" aria-hidden="true"></i>
+                          </button>
+                      </form>
+                        
+                    </p>
                     <button class="btn btn-danger" onclick="location.href='/posts/<%=current_user.id%>/lovers/<%=p.owner_id%>' ">
                       <i class="fa fa-heart" aria-hidden="true"></i>
                       소개신청목록(<%= @love_request.where(lover_id: p.owner_id).length %>명)</button>
-                    <button class="btn btn-warning" onclick="location.href='/posts/friend_loundge/<%=p.owner_id%>' ">
-                      <i class="fa fa-user" aria-hidden="true"></i>
-                      친구 라운지로 이동</button>
                     <button class="btn btn-primary" href="#" data-dismiss="modal">
                       <i class="fas fa-times fa-fw"></i>
                       프로필 닫기
@@ -693,3 +491,12 @@
     <% end %>
   <% else %>
   <% end %>
+  <!--추천솔로 데이터 끝-->
+  
+  
+<% end %>
+</div>
+
+<script>
+  const option = 
+</script>

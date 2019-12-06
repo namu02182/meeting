@@ -4,6 +4,24 @@
 
     <% if @result.present?%>
       <% @result.each do |p| %>  
+        <div class="card mb-3" style="max-width: 540px;">
+          <div class="row no-gutters">
+            <div class="col-md-4">
+              <% if p.profilepics? %>
+                <%= image_tag(p.profilepics.url, class:'img-fluid card-img profilepics', alt: "") %>
+              <% else %>
+                <img class="img-fluid card-img" src="img/avataaars.svg" alt="">
+              <% end %><img src="..." class="card-img" alt="...">
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+          </div>
+        </div>
+      </div>
+    </div>
         <a href="/posts/<%=p.owner_id%>", method: "GET"><%=p.name%></a>님
         <a href="/posts/friend_loundge/<%=p.owner_id%>", method: "GET">라운지로 이동</a>
         나에게 이 친구를 소개시켜달라고 한 친구는? <%= @love_request.where(lover_id: p.owner_id).length %>명! 

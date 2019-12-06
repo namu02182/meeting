@@ -19,6 +19,12 @@ img.profilepics {
     height: 15rem;
 }
 
+img.profilepics1 {
+    border-radius: 50%;
+    width: 8rem;
+    height: 8rem;
+}
+
 a.notice.profilepics {
   
     color: #FFFFFF;
@@ -26,8 +32,8 @@ a.notice.profilepics {
 }
 
 #profileshowheader {
-  padding-top: calc(0.1rem + 74px);
-  padding-bottom: 0.1rem;
+  padding-top: calc(0.1rem + 74px) !important;
+  padding-bottom: 0.1rem !important;
 }
 
 .navbar.navbar-expand-lg.bg-secondary.text-uppercase.fixed-top.profileshownav.profileshownav#mainNav {
@@ -40,4 +46,8 @@ a.notice.profilepics {
 #profiletitlenav {
   color: #FFFFFF;
 
+}
+
+#host.dropdown-item {
+  color: #FFFFFF;
 }

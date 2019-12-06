@@ -4,15 +4,17 @@
 			<div class="user_card">
 				<div class="d-flex justify-content-center">
 					<div class="brand_logo_container" >
-						<img src="https://cdn.freebiesupply.com/logos/large/2x/pinterest-circle-logo-png-transparent.png" class="brand_logo" alt="Logo">
-					</div>
-				</div>
+						<img src="/img/love2.jpg" class="brand_logo" alt="Logo">
+						</br></br>믿고 하는 지인 소개팅, <font size="7em">믿팅</font>
+					</div></br></br>
+				</div></br></br>
 				<div class="d-flex justify-content-center form_container" >
 					  <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
 						<div class="input-group mb-3">
 							<div class="input-group-append">
 								<span class="input-group-text" ><i class="fas fa-user"></i></span>
 							</div>
+							
              <%= f.input :email, 
                   required: false,
                   autofocus: true,
@@ -34,26 +36,30 @@
 						</div>
 						<div class="form-group">
 							<div class="custom-control custom-checkbox" >
-								<%= f.label :remember_me, class: "custom-control-label", for: "customControlInline"%>
+								<!--<%= f.label :remember_me, class: "custom-control-label", for: "customControlInline"%>-->
 								<%= f.input :remember_me, class: "custom-control-input", id: "customControlInline", as: :boolean if devise_mapping.rememberable? %>
 							</div>
 						</div>
 							<div class="d-flex justify-content-center mt-3 login_container" >
-    				 	<button type="button" name="button" class="btn login_btn" ><%= f.button :submit, "로그인" %></button>
+    				 	<button type="button" class="btn btn-outline-secondary"><%= f.button :submit, "로그인" %></button>
 				   </div>
 					<% end %>
 				</div>
 		
 				<div class="mt-4">
-					<div class="d-flex justify-content-center links">
-          <%= render "devise/shared/links" %>
-
-						Don't have an account? <a href="#" class="ml-2">Sign Up</a>
-					</div>
-					<div class="d-flex justify-content-center links">
-						<a href="#">Forgot your password?</a>
-					</div>
+				<!--	<div class="d-flex justify-content-center links">-->
+         			 <%= render "devise/shared/links" %>
+						
+					<!--	<a href="#" class="ml-2">Sign Up</a>-->
+					<!--</div>-->
+					<!--<div class="d-flex justify-content-center links">-->
+					<!--	<a href="#">Forgot your password?</a>-->
+					<!--</div>-->
 				</div>
+
+			    <p style="text-align: center;">
+				<img src="/img/구글.PNG" style="width: 150px;">&nbsp</img><img src="/img/네이버.PNG" style="width: 150px;"></img>
+				</p>
 			</div>
 		</div>
 	</div>
